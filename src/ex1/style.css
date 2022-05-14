@@ -32,15 +32,23 @@ body{
 }
 
 .app-wrapper header{
+    text-align: center;
     font-size: 1.5em;
 }
 
 .app-wrapper .input-field{
     display: flex;
-    height: 20%;
+    justify-content: space-around;
+    height: 10%;
     width: 100%;
 }
 
 .input-field input{
+    font-size: 1.3em;
+    width: 85%;
+    padding: 0 2%;
+}
 
+.input-field button{
+    flex-grow: 1;
 }
