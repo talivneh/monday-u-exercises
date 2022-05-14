@@ -17,6 +17,11 @@ body{
     width: 100vw;
     background-color: blueviolet;
     font-size: 18px;
+    cursor: default;
+}
+
+button{
+    cursor: pointer;
 }
 
 .app-wrapper{
@@ -51,4 +56,55 @@ body{
 
 .input-field button{
     flex-grow: 1;
+}
+
+.todo-list li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2%;
+    padding: 1%;
+    background-color: blueviolet;
+    border-radius: 8px;
+    cursor: default;
+}
+
+.todo-list li span {
+    flex-basis: 70%;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4%;
+}
+
+.todo-list li:hover{
+    background-color: rgb(162, 101, 219);
+}
+
+.todo-list li span.btn-container{
+    flex-basis: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.todo-list li button{
+   visibility: hidden;
+}
+
+.todo-list li:hover button{
+    visibility: visible;
+}
+
+footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+footer button{
+    visibility: visible;
+}
+
+footer button.no-tasks{
+    visibility: hidden;
 }
