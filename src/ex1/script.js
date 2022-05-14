@@ -35,6 +35,9 @@ function createNewToDo() {
 function createNewToDoElement(text, id) {
   const listItem = document.createElement("li");
   listItem.id = id;
+  listItem.addEventListener("click", () => {
+    alert(text);
+  });
 
   const listItemText = document.createElement("span");
   listItemText.innerText = text;
