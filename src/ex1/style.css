@@ -16,6 +16,7 @@ body{
     height: 100vh;
     width: 100vw;
     background-color: blueviolet;
+    font-size: 18px;
 }
 
 .app-wrapper{
@@ -23,4 +24,23 @@ body{
     padding: 10px;
     border-radius: 8px;
     box-shadow: 4px 4px 7px rgb(49, 26, 71);
+    height: fit-content;
+    min-height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.app-wrapper header{
+    font-size: 1.5em;
+}
+
+.app-wrapper .input-field{
+    display: flex;
+    height: 20%;
+    width: 100%;
+}
+
+.input-field input{
+
 }
