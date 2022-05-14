@@ -44,7 +44,6 @@ button{
 .app-wrapper .input-field{
     display: flex;
     justify-content: space-around;
-    height: 10%;
     width: 100%;
 }
 
@@ -55,6 +54,10 @@ button{
 }
 
 .input-field button{
+    flex-grow: 1;
+}
+
+ul.todo-list  {
     flex-grow: 1;
 }
 
