@@ -173,8 +173,6 @@ button:active{
     font-weight: 800;
 }
 
-git commit -m "shtyle: costume checkbox style"
-
 footer{
     display: flex;
     flex-direction: row;
@@ -222,7 +220,7 @@ footer button.no-tasks{
 
 .alert.info{
     color: #05203d;
-    animation: pulse;
+    animation: fadeIn;
     animation-duration: 0.5s;
     height: 40%;
 }
