@@ -82,7 +82,7 @@ function createNewToDoElement(text, id) {
 
   const listItemRemoveBtn = document.createElement("button");
   listItemRemoveBtn.className = "remove-btn";
-  listItemRemoveBtn.innerText = "remove";
+  listItemRemoveBtn.innerHTML = `<i class="fas fa-trash"></i>`;
   listItemRemoveBtn.addEventListener("click", () => {
     deleteItem(id);
   });

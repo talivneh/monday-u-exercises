@@ -138,13 +138,14 @@ button:active{
     justify-content: center;
 }
 
-.todo-list li button{
+.todo-list li .remove-btn{
    visibility: hidden;
    background-color: #e28743;
 }
 
-.todo-list li:hover button{
+.todo-list li:hover .remove-btn{
     visibility: visible;
+    width: 100%;
 }
 
 .todo-list li .todo-item-checkbox{
