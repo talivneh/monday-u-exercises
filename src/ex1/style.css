@@ -69,7 +69,7 @@ ul.todo-list  {
     padding: 1%;
     background-color: blueviolet;
     border-radius: 8px;
-    cursor: default;
+    cursor: pointer;
 }
 
 .todo-list li span {
@@ -113,6 +113,7 @@ footer button.no-tasks{
 }
 
 .alert{
+    display: none;
     position: absolute;
     width: 60%;
     height: 60%;
@@ -121,7 +122,8 @@ footer button.no-tasks{
     background-color: white;
     border: 2px solid black;
     border-radius: 8px;
-    display: none;
+    flex-direction: column;
+    padding: 10px;
 }
 
 .alert.show{
@@ -129,10 +131,13 @@ footer button.no-tasks{
 }
 
 .alert #alert-close-btn{
-    align-self: flex-start;
+    align-self: flex-end;
+    margin-left: 4%;
 }
 
 .alert .alert-innet-text{
+    display: flex;
     align-self: center;
-    justify-self: center;
+    align-items: center;
+    height: 60%;
 }
