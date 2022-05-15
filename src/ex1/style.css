@@ -149,14 +149,31 @@ button:active{
 }
 
 .todo-list li .todo-item-checkbox{
+    -webkit-appearance: none;
+    appearance: none;
     align-self: center;
     margin-left: 10px;
-    border: 1ps solid gray;
+    font: inherit;
+    color: currentColor;
+    width: 15px;
+    height: 15px;
+    border: 0.15px solid currentColor;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    position: relative;
+    cursor: pointer;
+    background-color: #eeeee4;
 }
 
-.todo-list li .todo-item-checkbox:checked{
-    background-color: #05203d;
+.todo-list li .todo-item-checkbox:checked::after{
+    color: #1ca148;
+    content: "\2713";
+    position: absolute;
+    top: -11px;
+    font-weight: 800;
 }
+
+git commit -m "shtyle: costume checkbox style"
 
 footer{
     display: flex;
@@ -235,7 +252,7 @@ color: #063970;
 }
 
 .alert .alert-innet-text > span.done , .alert .alert-innet-text > span.done > span{
-    color: #e28743;
+    color: #1ca148;
 }
 
 
