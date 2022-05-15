@@ -55,6 +55,20 @@ function createNewToDoElement(text, id) {
   const listItem = document.createElement("li");
   listItem.id = id;
 
+  const listItemCheckbox = document.createElement("input");
+  listItemCheckbox.setAttribute("type", "checkbox");
+  listItemCheckbox.className = "todo-item-checkbox";
+  listItemCheckbox.addEventListener("change", (e) => {
+    const item = itemsList.find((listItem) => listItem.id === id);
+    if (e.target.checked) {
+      item.isDone = true;
+      item.checkTime = new Date();
+      console.log(itemsList);
+    } else {
+      console.log("Checkbox is not checked.." + id);
+    }
+  });
+
   const listItemText = document.createElement("span");
   listItemText.className = "todo-item";
   listItemText.innerText = text;
@@ -74,6 +88,7 @@ function createNewToDoElement(text, id) {
   });
 
   listItemRemoveBtnContainer.appendChild(listItemRemoveBtn);
+  listItem.appendChild(listItemCheckbox);
   listItem.appendChild(listItemText);
   listItem.appendChild(listItemRemoveBtnContainer);
 
@@ -100,6 +115,15 @@ function createDetails(iitemId) {
         creation-date: ${item.time.getDate()}.${
     item.time.getMonth() + 1
   }.${item.time.getFullYear()}
-        creation-time: ${item.time.getHours()}:${item.time.getMinutes()}
-  `;
+        ${
+          item.isDone
+            ? `Marked as done at: ` +
+              item.checkTime.getDate() +
+              `.` +
+              (item.checkTime.getMonth() + 1) +
+              `.` +
+              item.checkTime.getFullYear()
+            : ``
+        }
+        `;
 }
