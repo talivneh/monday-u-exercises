@@ -1,6 +1,6 @@
 # My solution:
 
-<img src="/readme-images/first.png" alt="solution"/>
+<img src="/src/assets/first.png" alt="solution"/>
 
 ---
 
