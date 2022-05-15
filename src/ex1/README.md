@@ -1,5 +1,7 @@
 # My solution:
 
+<img src="/readme-images/first.png" alt="solution"/>
+
 ---
 
 # Exercise 1 - HTML, CSS, JS
