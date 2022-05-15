@@ -74,7 +74,10 @@ function createNewToDoElement(text, id) {
 
 function deleteItem(id) {
   const elementToDelte = document.getElementById(id);
-  listContainer.removeChild(elementToDelte);
+  elementToDelte.classList.add("leave");
+  setTimeout(() => {
+    listContainer.removeChild(elementToDelte);
+  }, 800);
   itemsList = itemsList.filter((listId) => listId.id !== id);
   updateTasksNum();
 }

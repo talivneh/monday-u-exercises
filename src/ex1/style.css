@@ -27,6 +27,11 @@ button{
     box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
+button:hover{
+    animation: pulse; 
+    animation-duration: 0.5s;
+}
+
 button:active{
     box-shadow: none;
 }
@@ -70,7 +75,12 @@ button:active{
     color: #eeeee4;
 }
 
-ul.todo-list  {
+.todo-list{
+    flex-grow: 1;
+    display: flex;
+}
+
+.todo-list ul  {
     flex-grow: 1;
 }
 
@@ -83,6 +93,13 @@ ul.todo-list  {
     background-color: #e28743;
     border-radius: 8px;
     cursor: pointer;
+    animation: pulse; 
+    animation-duration: 0.5s;
+}
+
+.todo-list li.leave{
+    animation: bounceOut;
+    animation-duration: 1s;
 }
 
 .todo-list li span {
