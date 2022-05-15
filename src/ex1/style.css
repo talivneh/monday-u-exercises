@@ -130,5 +130,9 @@ footer button.no-tasks{
 
 .alert #alert-close-btn{
     align-self: flex-start;
-    
+}
+
+.alert .alert-innet-text{
+    align-self: center;
+    justify-self: center;
 }

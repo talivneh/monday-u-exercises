@@ -86,7 +86,7 @@ function closeAlertBox() {
 function createDetails(iitemId) {
   const item = itemsList.find((listItem) => listItem.id === iitemId);
   return `name: ${item.text}
-        creation date: ${item.time.getDate()}
+        creation date: ${item.time.getDate()}.${item.time.getMonth()}.${item.time.getFullYear()}
         creation time: ${item.time.getHours()}:${item.time.getMinutes()}
   `;
 }
