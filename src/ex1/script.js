@@ -11,7 +11,7 @@ const listContainer = document.querySelector("ul");
 const footersItemsNumberSpan = document.getElementById("tasks-number");
 const deleteAllBtn = document.getElementById("clear-all");
 deleteAllBtn.addEventListener("click", () => {
-  itemsList.forEach((id) => deleteItem(id));
+  itemsList.forEach((object) => deleteItem(object.id));
 });
 
 const alertBox = document.querySelector(".alert");
@@ -34,9 +34,8 @@ function createNewToDo() {
   if (toDoInput.value.length) {
     const currentId = itemId++;
     listContainer.appendChild(createNewToDoElement(toDoInput.value, currentId));
+    itemsList.push({ id: currentId, text: toDoInput.value, time: new Date() });
     toDoInput.value = "";
-
-    itemsList.push(currentId);
     updateTasksNum();
   } else {
     alertBox.classList.add("show");
@@ -53,7 +52,7 @@ function createNewToDoElement(text, id) {
   listItemText.innerText = text;
   listItemText.addEventListener("click", () => {
     alertBox.classList.add("show");
-    alertBoxText.innerText = text;
+    alertBoxText.innerText = createDetails(id);
   });
 
   const listItemRemoveBtnContainer = document.createElement("span");
@@ -76,10 +75,18 @@ function createNewToDoElement(text, id) {
 function deleteItem(id) {
   const elementToDelte = document.getElementById(id);
   listContainer.removeChild(elementToDelte);
-  itemsList = itemsList.filter((listId) => listId !== id);
+  itemsList = itemsList.filter((listId) => listId.id !== id);
   updateTasksNum();
 }
 
 function closeAlertBox() {
   alertBox.classList.remove("show");
+}
+
+function createDetails(iitemId) {
+  const item = itemsList.find((listItem) => listItem.id === iitemId);
+  return `name: ${item.text}
+        creation date: ${item.time.getDate()}
+        creation time: ${item.time.getHours()}:${item.time.getMinutes()}
+  `;
 }
