@@ -1,6 +1,6 @@
 # My solution:
 
-<img width="500" src="img\first.png" alt="solution"/>
+<img width="500" src="img\readme.png" alt="solution"/>
 
 ---
 
