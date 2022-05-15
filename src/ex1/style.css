@@ -78,11 +78,29 @@ button:active{
 .todo-list{
     flex-grow: 1;
     display: flex;
+    flex-direction: column;
 }
 
-.todo-list ul  {
-    flex-grow: 1;
+.empty-list{
+   flex-grow: 1;
+   align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
+
+.empty-list.hide{
+    display: none;
+}
+
+.empty-list span {
+    text-align: center;
+    width: 50%;
+    font-size: 1.5rem;
+    color: #bbbbbb;
+    animation: tada 3s infinite linear;
+ }
+
 
 .todo-list li{
     display: flex;
@@ -170,10 +188,14 @@ footer button.no-tasks{
     font-weight: 700;
     text-align: center;
     font-size: 1.5rem;
+    animation: bounceIn;
+    animation-duration: 0.5s;
 }
 
 .alert.info{
     color: #05203d;
+    animation: pulse;
+    animation-duration: 0.5s;
 }
 
 .alert #alert-close-btn{
@@ -192,3 +214,5 @@ footer button.no-tasks{
     align-items: center;
     height: 60%;
 }
+
+

@@ -21,11 +21,19 @@ aletBoxCloseBtn.addEventListener("click", () => {
   closeAlertBox();
 });
 
+const listPlaceHolder = document.querySelector(".empty-list");
+
 const updateTasksNum = () => {
   footersItemsNumberSpan.innerText = itemsList.length.toString();
-  itemsList.length
-    ? deleteAllBtn.classList.remove("no-tasks")
-    : deleteAllBtn.classList.add("no-tasks");
+  if (itemsList.length) {
+    deleteAllBtn.classList.remove("no-tasks");
+    listPlaceHolder.classList.add("hide");
+  } else {
+    deleteAllBtn.classList.add("no-tasks");
+    setTimeout(() => {
+      listPlaceHolder.classList.remove("hide");
+    }, 900);
+  }
 };
 
 updateTasksNum();
