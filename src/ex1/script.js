@@ -24,23 +24,26 @@ const updateTasksNum = () => {
 updateTasksNum();
 
 function createNewToDo() {
-  const currentId = itemId++;
-  listContainer.appendChild(createNewToDoElement(toDoInput.value, currentId));
-  toDoInput.value = "";
+  if (toDoInput.value.length) {
+    const currentId = itemId++;
+    listContainer.appendChild(createNewToDoElement(toDoInput.value, currentId));
+    toDoInput.value = "";
 
-  itemsList.push(currentId);
-  updateTasksNum();
+    itemsList.push(currentId);
+    updateTasksNum();
+  }
 }
 
 function createNewToDoElement(text, id) {
   const listItem = document.createElement("li");
   listItem.id = id;
-  listItem.addEventListener("click", () => {
-    alert(text);
-  });
 
   const listItemText = document.createElement("span");
+  listItemText.className = "todo-item";
   listItemText.innerText = text;
+  listItemText.addEventListener("click", () => {
+    alert(text);
+  });
 
   const listItemRemoveBtnContainer = document.createElement("span");
   listItemRemoveBtnContainer.className = "btn-container";
