@@ -63,9 +63,9 @@ function createNewToDoElement(text, id) {
     if (e.target.checked) {
       item.isDone = true;
       item.checkTime = new Date();
-      console.log(itemsList);
     } else {
-      console.log("Checkbox is not checked.." + id);
+      item.isDone = false;
+      item.checkTime = "";
     }
   });
 
@@ -74,7 +74,7 @@ function createNewToDoElement(text, id) {
   listItemText.innerText = text;
   listItemText.addEventListener("click", () => {
     alertBox.classList.add("show", "info");
-    alertBoxText.innerText = createDetails(id);
+    alertBoxText.innerHTML = createDetails(id);
   });
 
   const listItemRemoveBtnContainer = document.createElement("span");
@@ -111,18 +111,19 @@ function closeAlertBox() {
 
 function createDetails(iitemId) {
   const item = itemsList.find((listItem) => listItem.id === iitemId);
-  return `name: ${item.text}
-        creation-date: ${item.time.getDate()}.${
+  return `<span><span>To do:</span> ${item.text}</span>
+  <span><span>Creation-date:</span> ${item.time.getDate()}.${
     item.time.getMonth() + 1
-  }.${item.time.getFullYear()}
+  }.${item.time.getFullYear()}</span>
         ${
           item.isDone
-            ? `Marked as done at: ` +
+            ? `<span class="done"><span>Done at:</span> ` +
               item.checkTime.getDate() +
               `.` +
               (item.checkTime.getMonth() + 1) +
               `.` +
-              item.checkTime.getFullYear()
+              item.checkTime.getFullYear() +
+              `</span>`
             : ``
         }
         `;

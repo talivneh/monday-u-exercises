@@ -147,6 +147,16 @@ button:active{
     visibility: visible;
 }
 
+.todo-list li .todo-item-checkbox{
+    align-self: center;
+    margin-left: 10px;
+    border: 1ps solid gray;
+}
+
+.todo-list li .todo-item-checkbox:checked{
+    background-color: #05203d;
+}
+
 footer{
     display: flex;
     flex-direction: row;
@@ -167,7 +177,6 @@ footer button.no-tasks{
     display: none;
     position: absolute;
     width: 60%;
-    height: 60%;
     max-width: 300px;
     max-height: 300px;
     background-color: white;
@@ -190,12 +199,14 @@ footer button.no-tasks{
     font-size: 1.5rem;
     animation: bounceIn;
     animation-duration: 0.5s;
+    height: 60%;
 }
 
 .alert.info{
     color: #05203d;
     animation: pulse;
     animation-duration: 0.5s;
+    height: 40%;
 }
 
 .alert #alert-close-btn{
@@ -210,8 +221,20 @@ footer button.no-tasks{
 
 .alert .alert-innet-text{
     display: flex;
-    align-self: center;
-    align-items: center;
+    flex-direction: column;
+    justify-self: center;
+    flex-grow: 1;
+    justify-content: center;
+    margin-bottom: 45px;
+}
+
+.alert .alert-innet-text > span > span{
+font-weight: 700;
+color: #063970;
+}
+
+.alert .alert-innet-text > span.done , .alert .alert-innet-text > span.done > span{
+    color: #e28743;
 }
 
 
