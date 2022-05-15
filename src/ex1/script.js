@@ -38,7 +38,7 @@ function createNewToDo() {
     toDoInput.value = "";
     updateTasksNum();
   } else {
-    alertBox.classList.add("show");
+    alertBox.classList.add("show", "warning");
     alertBoxText.innerText = "please write some text before adding new ToDo";
   }
 }
@@ -51,7 +51,7 @@ function createNewToDoElement(text, id) {
   listItemText.className = "todo-item";
   listItemText.innerText = text;
   listItemText.addEventListener("click", () => {
-    alertBox.classList.add("show");
+    alertBox.classList.add("show", "info");
     alertBoxText.innerText = createDetails(id);
   });
 
@@ -80,7 +80,7 @@ function deleteItem(id) {
 }
 
 function closeAlertBox() {
-  alertBox.classList.remove("show");
+  alertBox.classList.remove("show", "warning", "info");
 }
 
 function createDetails(iitemId) {

@@ -15,20 +15,27 @@ body{
     justify-content: center;
     height: 100vh;
     width: 100vw;
-    background-color: blueviolet;
+    background-color: #063970;
     font-size: 18px;
     cursor: default;
 }
 
 button{
     cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+button:active{
+    box-shadow: none;
 }
 
 .app-wrapper{
     background-color: white;
     padding: 10px;
     border-radius: 8px;
-    box-shadow: 4px 4px 7px rgb(49, 26, 71);
+    box-shadow: 4px 4px 7px #05203d;
     height: fit-content;
     min-height: 50%;
     display: flex;
@@ -45,16 +52,22 @@ button{
     display: flex;
     justify-content: space-around;
     width: 100%;
+    padding: 2%;
 }
 
 .input-field input{
     font-size: 1.3em;
-    width: 85%;
+    width: 80%;
     padding: 0 2%;
+    margin: 0 2%;
+    border-radius: 8px;
+    border: 1px solid #eeeee4;
 }
 
 .input-field button{
     flex-grow: 1;
+    background-color: #154c79;
+    color: #eeeee4;
 }
 
 ul.todo-list  {
@@ -67,7 +80,7 @@ ul.todo-list  {
     justify-content: space-between;
     margin: 2%;
     padding: 1%;
-    background-color: blueviolet;
+    background-color: #e28743;
     border-radius: 8px;
     cursor: pointer;
 }
@@ -77,11 +90,11 @@ ul.todo-list  {
     white-space: nowrap; 
     overflow: hidden;
     text-overflow: ellipsis;
-    padding: 0 4%;
+    padding: 1% 4%;
 }
 
 .todo-list li:hover{
-    background-color: rgb(162, 101, 219);
+    background-color: #eab676;
 }
 
 .todo-list li span.btn-container{
@@ -92,6 +105,7 @@ ul.todo-list  {
 
 .todo-list li button{
    visibility: hidden;
+   background-color: #e28743;
 }
 
 .todo-list li:hover button{
@@ -106,6 +120,8 @@ footer{
 
 footer button{
     visibility: visible;
+    background-color: #abdbe3;
+    padding: 0 2%;
 }
 
 footer button.no-tasks{
@@ -120,19 +136,37 @@ footer button.no-tasks{
     max-width: 300px;
     max-height: 300px;
     background-color: white;
-    border: 2px solid black;
+    border: 1px solid #727272;
     border-radius: 8px;
     flex-direction: column;
     padding: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    background-color: #eeeee4;
 }
 
 .alert.show{
     display: flex;
 }
 
+.alert.warning{
+    color: #ff6565;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.5rem;
+}
+
+.alert.info{
+    color: #05203d;
+}
+
 .alert #alert-close-btn{
     align-self: flex-end;
     margin-left: 4%;
+    width: 25px;
+    height: 25px;
+    background-color: #646464;
+    border-radius: 50%;
+    color: #eeeee4;
 }
 
 .alert .alert-innet-text{
