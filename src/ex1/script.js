@@ -14,6 +14,13 @@ deleteAllBtn.addEventListener("click", () => {
   itemsList.forEach((id) => deleteItem(id));
 });
 
+const alertBox = document.querySelector(".alert");
+const alertBoxText = document.querySelector(".alert-innet-text");
+const aletBoxCloseBtn = document.getElementById("alert-close-btn");
+aletBoxCloseBtn.addEventListener("click", () => {
+  closeAlertBox();
+});
+
 const updateTasksNum = () => {
   footersItemsNumberSpan.innerText = itemsList.length.toString();
   itemsList.length
@@ -31,6 +38,9 @@ function createNewToDo() {
 
     itemsList.push(currentId);
     updateTasksNum();
+  } else {
+    alertBox.classList.add("show");
+    alertBoxText.innerText = "please write some text before adding new ToDo";
   }
 }
 
@@ -42,7 +52,8 @@ function createNewToDoElement(text, id) {
   listItemText.className = "todo-item";
   listItemText.innerText = text;
   listItemText.addEventListener("click", () => {
-    alert(text);
+    alertBox.classList.add("show");
+    alertBoxText.innerText = text;
   });
 
   const listItemRemoveBtnContainer = document.createElement("span");
@@ -67,4 +78,8 @@ function deleteItem(id) {
   listContainer.removeChild(elementToDelte);
   itemsList = itemsList.filter((listId) => listId !== id);
   updateTasksNum();
+}
+
+function closeAlertBox() {
+  alertBox.classList.remove("show");
 }
