@@ -146,6 +146,9 @@ button:active{
 .todo-list li:hover .remove-btn{
     visibility: visible;
     width: 100%;
+    box-shadow: none;
+    animation: slideInRight;
+    animation-duration: 0.5s;
 }
 
 .todo-list li .todo-item-checkbox{
