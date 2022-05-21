@@ -2,25 +2,27 @@ import PokemonClient from "./PokemonClient";
 
 export default class ItemManager {
   constructor() {
-    this.POKEMON_LIST = [];
+    this.itemsList = [];
     this.pokemonClient = new PokemonClient();
   }
 
-  async addPokemone(id) {
-    const pokemonName = await pokemonClient
-      .fetchAllPokemons()
-      .then((pokemonsList) => pokemonsList[id].name);
+  async addItem(id, isPokemon, text) {
+    let name;
 
-    this.POKEMON_LIST.push({ id, name: pokemonName });
+    if (isPokemon) {
+      text = await pokemonClient
+        .fetchAllPokemons()
+        .then((pokemonsList) => pokemonsList[id].name);
+    }
+
+    this.itemsList.push({ id, text: text ? text : name });
   }
 
-  removePokemone(id) {
-    this.POKEMON_LIST = this.POKEMON_LIST.filter(
-      (pokemonItem) => pokemonItem.id !== id
-    );
+  removeItem(id) {
+    this.itemsList = this.itemsList.filter((item) => item.id !== id);
   }
 
-  getAllPokemons() {
+  getAllItems() {
     return this.POKEMON_LIST;
   }
 }
