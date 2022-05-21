@@ -2,7 +2,6 @@ import PokemonClient from "./PokemonClient";
 
 export default class ItemManager {
   constructor() {
-    this.API_BASE = "https://pokeapi.co/api/v2";
     this.POKEMON_LIST = [];
     this.pokemonClient = new PokemonClient();
   }
