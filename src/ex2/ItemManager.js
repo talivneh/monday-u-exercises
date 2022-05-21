@@ -5,15 +5,11 @@ export default class ItemManager {
   }
 
   async addPokemone(id) {
-    try {
-      const pokemonName = await this.getAllPokemons().then(
-        (pokemonsList) => pokemonsList[id].name
-      );
+    const pokemonName = await this.getAllPokemons().then(
+      (pokemonsList) => pokemonsList[id].name
+    );
 
-      this.POKEMON_LIST.push({ id, name: pokemonName });
-    } catch {
-      (err) => console.log(err);
-    }
+    this.POKEMON_LIST.push({ id, name: pokemonName });
   }
 
   removePokemone() {}
