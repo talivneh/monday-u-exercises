@@ -1,11 +1,22 @@
 export default class ItemManager {
   constructor() {
     this.API_BASE = "https://pokeapi.co/api/v2";
+    this.POKEMON_LIST = [];
   }
 
-  async addPokemone() {}
+  async addPokemone(id) {
+    try {
+      const pokemonName = await this.getAllPokemons().then(
+        (pokemonsList) => pokemonsList[id].name
+      );
 
-  async removePokemone() {}
+      this.POKEMON_LIST.push({ id, name: pokemonName });
+    } catch {
+      (err) => console.log(err);
+    }
+  }
+
+  removePokemone() {}
 
   async getAllPokemons() {
     try {
