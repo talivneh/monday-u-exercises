@@ -7,5 +7,16 @@ export default class ItemManager {
 
   async removePokemone() {}
 
-  async getAllPokemons() {}
+  async getAllPokemons() {
+    try {
+      const pokemons = await fetch(
+        `${this.API_BASE}/pokemon?limit=100000&offset=0`
+      );
+      const pokemonsJson = await pokemons.json();
+
+      return pokemonsJson.results;
+    } catch {
+      (err) => console.log(err);
+    }
+  }
 }
