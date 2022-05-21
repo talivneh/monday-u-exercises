@@ -12,7 +12,11 @@ export default class ItemManager {
     this.POKEMON_LIST.push({ id, name: pokemonName });
   }
 
-  removePokemone() {}
+  removePokemone(id) {
+    this.POKEMON_LIST = this.POKEMON_LIST.filter(
+      (pokemonItem) => pokemonItem.id !== id
+    );
+  }
 
   async getAllPokemons() {
     try {
