@@ -23,6 +23,6 @@ export default class ItemManager {
   }
 
   getAllItems() {
-    return this.POKEMON_LIST;
+    return this.itemsList;
   }
 }
