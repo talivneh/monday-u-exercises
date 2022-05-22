@@ -45,7 +45,7 @@ export default class View {
     const text = this._inputText;
     this._resetInput();
 
-    const time = new Date();
+    const time = new Date().toLocaleDateString();
     const item = {
       text,
       time,
@@ -138,7 +138,7 @@ export default class View {
   createDetails(item) {
     console.log(item.complete);
     return `<span><span>To do:</span> ${item.text}</span>
-    <span><span>Creation-date:</span> ${item.time.toLocaleDateString()}</span>
+    <span><span>Creation-date:</span> ${item.time}</span>
     ${
       item.complete
         ? `<span class="done"><span>Done at:</span> ` +
