@@ -9,12 +9,9 @@ export default class ItemManager {
     const pokemonClient = new PokemonClient();
 
     if (parseInt(item.text)) {
-      if (pokemonClient.validatePokemonId(item.text)) {
-        const pokemonName = await pokemonClient.fetchPokemonNameById(item.text);
-        item.text = `Catch ${pokemonName}`;
-      } else {
-        item.text = "invalid input";
-      }
+      const pokemonId = parseInt(item.text);
+      const pokemonName = await pokemonClient.fetchPokemonNameById(pokemonId);
+      item.text = pokemonName;
     }
 
     this.itemsList.push(item);

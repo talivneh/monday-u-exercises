@@ -3,39 +3,23 @@ export default class PokemonClient {
     this.API_BASE = "https://pokeapi.co/api/v2";
   }
 
-  async fetchAllPokemons() {
+  async fetchPokemonNameById(id) {
     try {
-      const pokemons = await fetch(
-        `${this.API_BASE}/pokemon?limit=100000&offset=0`
-      );
-      const pokemonsJson = await pokemons.json();
-
-      return pokemonsJson.results;
+      const pokemon = await fetch(`${this.API_BASE}/pokemon/${id}/`, {
+        headers: {
+          mode: "no-cors",
+        },
+      });
+      const pokemonsJson = await pokemon.json();
+      if (pokemon) {
+        return `Catch ${pokemonsJson.name}`;
+      } else {
+        return `Pokemon with ID ${id} was not found`;
+      }
     } catch {
       (err) => console.log(err);
     }
-  }
 
-  validatePokemonId(id) {
-    const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-
-    if (!format.test(id)) {
-      return true;
-    }
-
-    return false;
-  }
-
-  async fetchPokemonNameById(id) {
-    if (id > 1000) {
-      return `Failed to fetch pokemon with ID ${id}`;
-    }
-
-    try {
-      const pokemonsList = await this.fetchAllPokemons();
-      return pokemonsList[id].name;
-    } catch {
-      (err) => "problem with input";
-    }
+    return `Failed to fetch Pokemon with ID ${id}`;
   }
 }

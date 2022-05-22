@@ -36,26 +36,37 @@ export default class View {
     return element;
   }
 
-  validateInput(text) {
-    const textList = text.split(",");
-    if (textList.length > 1) {
-      textList.forEach((text) => this.addNewItem(text.trim()));
-    } else {
-      this.addNewItem(textList);
-    }
-  }
-
   handleAddBtnClick() {
     if (this._inputText) {
-      this.validateInput(this._inputText);
+      this.handleInput(this._inputText);
+      this.resetInput();
     } else {
       this.alert(null);
     }
   }
 
-  addNewItem(text) {
-    this.resetInput();
+  handleInput(text) {
+    const textList = text.split(",");
+    if (textList.length > 1) {
+      textList.forEach((text) => this.validateInput(text.trim()));
+    } else {
+      this.validateInput(text.trim());
+    }
+  }
 
+  validateInput(text) {
+    const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (!format.test(text)) {
+      this.addNewItem(text);
+    } else {
+      this.alert(
+        `${text} is invalid input. please use letters and numbers only`,
+        "warning"
+      );
+    }
+  }
+
+  addNewItem(text) {
     const time = new Date().toLocaleDateString();
     const item = {
       text,
@@ -80,8 +91,6 @@ export default class View {
   }
 
   createNewToDoElement(item) {
-    // item.text = await ;
-
     const listItem = document.createElement("li");
 
     const listItemCheckbox = document.createElement("input");
@@ -96,7 +105,7 @@ export default class View {
     listItemText.className = "todo-item";
     listItemText.innerText = item.text;
     listItemText.addEventListener("click", () => {
-      this.alert(this.createDetails(item));
+      this.alert(this.createDetails(item), "info");
     });
 
     const listItemRemoveBtnContainer = document.createElement("span");
@@ -171,13 +180,13 @@ export default class View {
     } `;
   }
 
-  alert(alert) {
+  alert(alert, type) {
     if (!alert) {
       this.alertBox.classList.add("show", "warning");
       this.alertBoxText.innerText =
         "please write some text before adding new ToDo";
     } else {
-      this.alertBox.classList.add("show", "info");
+      this.alertBox.classList.add("show", type);
       this.alertBoxText.innerHTML = alert;
     }
   }
