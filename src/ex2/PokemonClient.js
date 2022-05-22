@@ -19,7 +19,7 @@ export default class PokemonClient {
   validatePokemonId(id) {
     const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
-    if (!format.test(id) && 1000 > id) {
+    if (!format.test(id)) {
       return true;
     }
 
@@ -27,6 +27,10 @@ export default class PokemonClient {
   }
 
   async fetchPokemonNameById(id) {
+    if (id > 1000) {
+      return `Failed to fetch pokemon with ID ${id}`;
+    }
+
     try {
       const pokemonsList = await this.fetchAllPokemons();
       return pokemonsList[id].name;

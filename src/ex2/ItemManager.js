@@ -24,7 +24,6 @@ export default class ItemManager {
 
   removeItem(text) {
     this.itemsList = this.itemsList.filter((item) => item.text !== text);
-    console.log(this.itemsList);
   }
 
   getAllItems() {

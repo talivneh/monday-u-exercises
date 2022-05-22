@@ -4,16 +4,18 @@ import ItemManager from "./ItemManager.js";
 class Main {
   constructor() {
     this.itemManager = new ItemManager();
-    this.view = new View(this.itemManager.removeItem.bind(this.itemManager));
+    this.view = new View(
+      this.itemManager.addItem.bind(this.itemManager),
+      this.itemManager.removeItem.bind(this.itemManager),
+      this.itemManager.getAllItems.bind(this.itemManager)
+    );
   }
 
   init() {
     this.view.init();
     const addBtn = document.getElementById("add-todo");
     addBtn.addEventListener("click", () => {
-      this.view.handleAddBtnClick(
-        this.itemManager.addItem.bind(this.itemManager)
-      );
+      this.view.handleAddBtnClick();
     });
   }
 }

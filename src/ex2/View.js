@@ -1,10 +1,12 @@
 export default class View {
-  constructor(deleteHandler) {
+  constructor(addItemHandler, deleteItemHandler, getAllItemsHandler) {
     this.toDoInput = document.querySelector("input");
     this.listContainer = document.querySelector("ul");
     this.alertBox = document.querySelector(".alert");
     this.alertBoxText = document.querySelector(".alert-innet-text");
-    this.deleteHandler = deleteHandler;
+    this.addItemHandler = addItemHandler;
+    this.deleteItemHandler = deleteItemHandler;
+    this.getAllItemsHandler = getAllItemsHandler;
   }
 
   init() {
@@ -25,7 +27,7 @@ export default class View {
     return this.toDoInput.value;
   }
 
-  _resetInput() {
+  resetInput() {
     this.toDoInput.value = "";
   }
 
@@ -34,17 +36,25 @@ export default class View {
     return element;
   }
 
-  handleAddBtnClick(handler) {
+  validateInput(text) {
+    const textList = text.split(",");
+    if (textList.length > 1) {
+      textList.forEach((text) => this.addNewItem(text.trim()));
+    } else {
+      this.addNewItem(textList);
+    }
+  }
+
+  handleAddBtnClick() {
     if (this._inputText) {
-      this.createNewToDoElement(handler);
+      this.validateInput(this._inputText);
     } else {
       this.alert(null);
     }
   }
 
-  async createNewToDoElement(handler) {
-    const text = this._inputText;
-    this._resetInput();
+  addNewItem(text) {
+    this.resetInput();
 
     const time = new Date().toLocaleDateString();
     const item = {
@@ -60,7 +70,17 @@ export default class View {
       },
     };
 
-    item.text = await handler(item);
+    this.addItemHandler(item).then((itemName) =>
+      this.renderNewItem({ ...item, name: itemName })
+    );
+  }
+
+  async renderNewItem(item) {
+    this.createNewToDoElement(item);
+  }
+
+  createNewToDoElement(item) {
+    // item.text = await ;
 
     const listItem = document.createElement("li");
 
@@ -109,7 +129,7 @@ export default class View {
       updateTasksNum.call(this);
     }, 800);
 
-    this.deleteHandler(elementToDelte.innerText);
+    this.deleteItemHandler(elementToDelte.innerText);
   }
 
   updateTasksNum() {
