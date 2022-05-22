@@ -3,8 +3,8 @@ import ItemManager from "./ItemManager.js";
 
 class Main {
   constructor() {
-    this.view = new View();
     this.itemManager = new ItemManager();
+    this.view = new View(this.itemManager.removeItem.bind(this.itemManager));
   }
 
   init() {

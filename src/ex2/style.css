@@ -1,117 +1,258 @@
-html {
-  height: 100%;
-}
-body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
+@import url('https://fonts.googleapis.com/css2?family=Changa&display=swap');
+
+*{
+    box-sizing: border-box;
+    font-family: 'Changa', sans-serif;
+    outline: none;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-.app-container {
-  width: 100%;
-  height: 100%;
-  font-family: Georgia, serif;
-  font-weight: lighter;
-  background-image: linear-gradient(
-    to top right,
-    white,
-    #d4dff3,
-    rgba(138, 144, 224, 0.76),
-    rgba(106, 117, 231, 0.76),
-    rgba(85, 97, 229, 0.76)
-  );
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+body{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    width: 100vw;
+    background-color: #063970;
+    font-size: 18px;
+    cursor: default;
 }
 
-.app-name {
-  padding-left: 32px;
-  font-weight: lighter;
+button{
+    cursor: pointer;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
 }
 
-.list-container {
-  display: flex;
-  flex-direction: column;
-  width: 30%;
-  height: 50%;
-  background-color: white;
-  border: 1px silver solid;
-  border-radius: 8px;
-  -webkit-box-shadow: 12px 12px 38px -13px #000000;
-  box-shadow: 12px 12px 38px -13px #000000;
+button:hover{
+    animation: pulse; 
+    animation-duration: 0.5s;
 }
 
-.list-controls {
-  padding: 0px 32px;
-  background-color: white;
-  display: flex;
-  align-items: center;
-  border-top-right-radius: 8px;
-  border-top-left-radius: 8px;
+button:active{
+    box-shadow: none;
 }
 
-.list-controls #list-item-input {
-  width: 85%;
-  height: 30px;
-  font-size: 16px;
-  padding-left: 8px;
+.app-wrapper{
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 4px 4px 7px #05203d;
+    height: fit-content;
+    min-height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.list-controls #list-item-submit {
-  color: white;
-  background-color: #6c6cff;
-  border-style: solid;
-  border-color: transparent;
-  border-radius: 4px;
-  height: 35px;
-  width: 35px;
-  font-size: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  margin-left: auto;
+.app-wrapper header{
+    text-align: center;
+    font-size: 1.5em;
 }
 
-.list-controls #list-item-submit:hover {
-  background-color: #3c3cff;
-  transition: background-color 0.2s ease-in-out;
+.app-wrapper .input-field{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 2%;
 }
 
-#list {
-  list-style-type: none;
-  padding: 0px 30px;
-  height: 310px;
-  overflow-y: scroll;
+.input-field input{
+    font-size: 1.3em;
+    width: 80%;
+    padding: 0 2%;
+    margin: 0 2%;
+    border-radius: 8px;
+    border: 1px solid #eeeee4;
 }
 
-.list-item {
-  padding: 8px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
+.input-field button{
+    flex-grow: 1;
+    background-color: #154c79;
+    color: #eeeee4;
 }
 
-.list-item:hover {
-  color: blueviolet;
-  transition: color 0.2s ease-in-out;
+.todo-list{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }
 
-.list-item:not(:last-of-type) {
-  border-bottom: 1px #bbb5b5 solid;
+.empty-list{
+   flex-grow: 1;
+   align-self: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
-.list-item-delete-button {
-  margin-left: auto;
-  padding: 8px;
-  cursor: pointer;
-  border-radius: 8px;
+.empty-list.hide{
+    display: none;
 }
 
-.list-item-delete-button:hover {
-  background-color: #f0f0f5;
-  transition: background-color 0.2s ease-in-out;
+.empty-list span {
+    text-align: center;
+    width: 50%;
+    font-size: 1.5rem;
+    color: #bbbbbb;
+    animation: tada 3s infinite linear;
+ }
+
+
+.todo-list li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2%;
+    padding: 1%;
+    background-color: #e28743;
+    border-radius: 8px;
+    cursor: pointer;
+    animation: pulse; 
+    animation-duration: 0.5s;
 }
+
+.todo-list li.leave{
+    animation: bounceOut;
+    animation-duration: 1s;
+}
+
+.todo-list li span {
+    flex-basis: 70%;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 1% 4%;
+}
+
+.todo-list li:hover{
+    background-color: #eab676;
+}
+
+.todo-list li span.btn-container{
+    flex-basis: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+.todo-list li .remove-btn{
+   visibility: hidden;
+   background-color: #e28743;
+}
+
+.todo-list li:hover .remove-btn{
+    visibility: visible;
+    width: 100%;
+    box-shadow: none;
+    animation: slideInRight;
+    animation-duration: 0.5s;
+}
+
+.todo-list li .todo-item-checkbox{
+    -webkit-appearance: none;
+    appearance: none;
+    align-self: center;
+    margin-left: 10px;
+    font: inherit;
+    color: currentColor;
+    width: 15px;
+    height: 15px;
+    border: 0.15px solid currentColor;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    position: relative;
+    cursor: pointer;
+    background-color: #eeeee4;
+}
+
+.todo-list li .todo-item-checkbox:checked::after{
+    color: #1ca148;
+    content: "\2713";
+    position: absolute;
+    top: -11px;
+    font-weight: 800;
+}
+
+footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+footer button{
+    background-color: #abdbe3;
+    padding: 0 2%;
+}
+
+footer.hide{
+    display: none;
+}
+
+.alert{
+    display: none;
+    position: absolute;
+    width: 60%;
+    max-width: 300px;
+    max-height: 300px;
+    background-color: white;
+    border: 1px solid #727272;
+    border-radius: 8px;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    background-color: #eeeee4;
+}
+
+.alert.show{
+    display: flex;
+}
+
+.alert.warning{
+    color: #ff6565;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.5rem;
+    animation: bounceIn;
+    animation-duration: 0.5s;
+    height: 60%;
+}
+
+.alert.info{
+    color: #05203d;
+    animation: fadeIn;
+    animation-duration: 0.5s;
+    height: 40%;
+}
+
+.alert #alert-close-btn{
+    align-self: flex-end;
+    margin-left: 4%;
+    width: 25px;
+    height: 25px;
+    background-color: #646464;
+    border-radius: 50%;
+    color: #eeeee4;
+}
+
+.alert .alert-innet-text{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    flex-grow: 1;
+    justify-content: center;
+    margin-bottom: 45px;
+}
+
+.alert .alert-innet-text > span > span{
+font-weight: 700;
+color: #063970;
+}
+
+.alert .alert-innet-text > span.done , .alert .alert-innet-text > span.done > span{
+    color: #1ca148;
+}
+
+

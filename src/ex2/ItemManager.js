@@ -22,14 +22,9 @@ export default class ItemManager {
     return item.text;
   }
 
-  removeItem(id) {
-    this.itemsList = this.itemsList.filter((item) => item.id !== id);
-  }
-
-  toggleCheckedItem(id) {
-    this.itemsList = this.itemsList.map((item) =>
-      item.id === id ? { ...item, complete: !item.complete } : item
-    );
+  removeItem(text) {
+    this.itemsList = this.itemsList.filter((item) => item.text !== text);
+    console.log(this.itemsList);
   }
 
   getAllItems() {

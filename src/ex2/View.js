@@ -1,9 +1,10 @@
 export default class View {
-  constructor() {
+  constructor(deleteHandler) {
     this.toDoInput = document.querySelector("input");
     this.listContainer = document.querySelector("ul");
     this.alertBox = document.querySelector(".alert");
     this.alertBoxText = document.querySelector(".alert-innet-text");
+    this.deleteHandler = deleteHandler;
   }
 
   init() {
@@ -107,6 +108,8 @@ export default class View {
       container.removeChild(elementToDelte);
       updateTasksNum.call(this);
     }, 800);
+
+    this.deleteHandler(elementToDelte.innerText);
   }
 
   updateTasksNum() {
