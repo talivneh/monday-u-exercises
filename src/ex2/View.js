@@ -55,7 +55,14 @@ export default class View {
   }
 
   validateInput(text) {
-    const format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    const itemsList = this.getAllItemsHandler();
+    const isExists = itemsList.some((item) => item.text === text);
+
+    if (isExists) {
+      return this.alert(`You are trying to add ${text} again`, "warning");
+    }
+
+    const format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if (!format.test(text)) {
       this.addNewItem(text);
     } else {
@@ -82,12 +89,8 @@ export default class View {
     };
 
     this.addItemHandler(item).then((itemName) =>
-      this.renderNewItem({ ...item, name: itemName })
+      this.createNewToDoElement({ ...item, name: itemName })
     );
-  }
-
-  async renderNewItem(item) {
-    this.createNewToDoElement(item);
   }
 
   createNewToDoElement(item) {
