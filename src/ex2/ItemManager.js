@@ -11,10 +11,8 @@ export default class ItemManager {
     if (newPokemonItem) {
       const pokemon = `Catch ${newPokemonItem}`;
       this.itemsList.push({ ...item, name: pokemon });
-      return pokemon;
     } else {
       this.itemsList.push(item);
-      return item.text;
     }
   }
 

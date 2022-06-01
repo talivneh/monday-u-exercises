@@ -59,27 +59,6 @@ export default class View {
     }
   }
 
-  handleInvalidInput(input, isExists, isSpecial) {
-    let alertContent;
-    if (isSpecial) {
-      alertContent = [
-        `${input} is invalid input. please use letters and numbers only`,
-        "warning",
-      ];
-    }
-    if (isExists) {
-      alertContent = [
-        `You are trying to add exsisting task (${input})`,
-        "warning",
-      ];
-    }
-    this.alert(...alertContent);
-  }
-
-  handleValidInput(input) {
-    this.addNewItem(input);
-  }
-
   validateInput(text) {
     let inValid = { isExists: false, isSpecial: false };
 
@@ -103,7 +82,28 @@ export default class View {
     return inValid;
   }
 
-  addNewItem(text) {
+  handleInvalidInput(input, isExists, isSpecial) {
+    let alertContent;
+    if (isSpecial) {
+      alertContent = [
+        `${input} is invalid input. please use letters and numbers only`,
+        "warning",
+      ];
+    }
+    if (isExists) {
+      alertContent = [
+        `You are trying to add exsisting task (${input})`,
+        "warning",
+      ];
+    }
+    this.alert(...alertContent);
+  }
+
+  handleValidInput(input) {
+    this.addNewItem(input);
+  }
+
+  async addNewItem(text) {
     const time = new Date().toLocaleDateString();
     const item = {
       name: text,
@@ -118,9 +118,15 @@ export default class View {
           : null;
       },
     };
-    this.addItemHandler(item).then((itemName) =>
-      this.createNewToDoElement({ ...item, name: itemName })
-    );
+
+    await this.addItemHandler(item);
+    this.renderItems();
+  }
+
+  renderItems() {
+    this.listContainer.innerHTML = "";
+    const items = this.getAllItemsHandler();
+    items.forEach((item) => this.createNewToDoElement(item));
   }
 
   createNewToDoElement(item) {
@@ -132,6 +138,7 @@ export default class View {
 
     listItemCheckbox.addEventListener("change", () => {
       item.toggleComplete();
+      this.updateTasksNum();
     });
 
     const listItemText = document.createElement("span");
@@ -175,9 +182,11 @@ export default class View {
   }
 
   updateTasksNum() {
+    const taskNum = this.getAllItemsHandler().filter((item) => {
+      return !item.complete;
+    }).length;
     const footersItemsNumberSpan = document.getElementById("tasks-number");
-    footersItemsNumberSpan.innerText =
-      this.listContainer.childNodes.length.toString();
+    footersItemsNumberSpan.innerText = taskNum;
     this.toggleEmptyView.call(this);
   }
 
