@@ -48,7 +48,6 @@ export default class PokemonClient {
       name = pokemonsJson.name;
     } catch {
       (err) => {
-        console.log(err);
         error = err;
       };
     }
