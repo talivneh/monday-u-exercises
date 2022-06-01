@@ -37,12 +37,12 @@ export default class View {
   }
 
   handleAddBtnClick() {
-    if (this._inputText) {
+    if (this._inputText.trim()) {
       this.handleInput(this._inputText);
-      this.resetInput();
     } else {
       this.alert(null);
     }
+    this.resetInput();
   }
 
   handleInput(text) {
