@@ -50,27 +50,49 @@ export default class View {
     if (textList.length > 1) {
       textList.forEach((text) => this.validateInput(text.trim()));
     } else {
-      this.validateInput(text.trim());
+      const isValid = this.validateInput(text.trim());
+      if (isValid) {
+        this.handleValidInput(text.trim());
+      } else {
+        handleInvalidInput(text, isValid.isExists, isValid.isSpecial);
+      }
     }
   }
 
+  handleInvalidInput(input, isExists, isSpecial) {
+    let alertContent;
+    if (isSpecial) {
+      alertContent = [
+        `${input} is invalid input. please use letters and numbers only`,
+        "warning",
+      ];
+    }
+    if (isExists) {
+      alertContent = [`You are trying to add ${text} again`, "warning"];
+    }
+    this.alert(...alertContent);
+  }
+
+  handleValidInput(input) {
+    this.addNewItem(input);
+  }
+
   validateInput(text) {
+    let inValid = { isExists: false, isSpecial: false };
+
     const itemsList = this.getAllItemsHandler();
     const isExists = itemsList.some((item) => item.text === text);
+    const format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
     if (isExists) {
-      return this.alert(`You are trying to add ${text} again`, "warning");
+      inValid.isExists = true;
+    } else if (format.test(text)) {
+      inValid.isSpecial = true;
+    } else {
+      return true;
     }
 
-    const format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    if (!format.test(text)) {
-      this.addNewItem(text);
-    } else {
-      this.alert(
-        `${text} is invalid input. please use letters and numbers only`,
-        "warning"
-      );
-    }
+    return inValid;
   }
 
   addNewItem(text) {
