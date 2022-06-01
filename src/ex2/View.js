@@ -31,7 +31,7 @@ export default class View {
     this.toDoInput.value = "";
   }
 
-  getElement(selector) {
+  getElementBySelector(selector) {
     const element = document.querySelector(selector);
     return element;
   }
