@@ -177,7 +177,7 @@ export default class View {
     const listPlaceHolder = document.querySelector(".empty-list");
     const footer = document.querySelector("footer");
 
-    if (this.getElement("li")) {
+    if (this.getElementBySelector("li")) {
       listPlaceHolder.classList.add("hide");
       footer.classList.remove("hide");
     } else {
