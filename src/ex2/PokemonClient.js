@@ -31,6 +31,18 @@ export default class PokemonClient {
     return `Failed to fetch Pokemon with ID ${id}`;
   }
 
+  async isPokemonName(item) {
+    let pokemonName;
+    const isPokemonFormat = /^[0-9]*$/;
+    if (isPokemonFormat.test(item)) {
+      const pokemonId = parseInt(item);
+      pokemonName = await this.fetchPokemonNameById(pokemonId);
+    } else {
+      pokemonName = await this.fetchPokemonByName(item);
+    }
+    return pokemonName ? pokemonName : null;
+  }
+
   // I found out that fetching all pokemon and then query them by ID
   // is alot faster then tryung to fetch each of them by id.
   // If you wish to see it - you can un-comment the next function

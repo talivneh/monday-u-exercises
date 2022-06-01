@@ -7,25 +7,14 @@ export default class ItemManager {
   }
 
   async addItem(item) {
-    const isPokemonFormat = /^[0-9]*$/;
-    if (isPokemonFormat.test(item.text)) {
-      const pokemonId = parseInt(item.text);
-      const pokemonName = await this.pokemonClient.fetchPokemonNameById(
-        pokemonId
-      );
-      item.text = pokemonName;
+    const newPokemonItem = await this.pokemonClient.isPokemonName(item.text);
+    if (newPokemonItem) {
+      this.itemsList.push(newPokemonItem);
+      return newPokemonItem;
     } else {
-      const pokemonName = await this.pokemonClient.fetchPokemonByName(
-        item.text
-      );
-      if (pokemonName) {
-        item.text = pokemonName;
-      }
+      this.itemsList.push(item);
+      return item.text;
     }
-
-    this.itemsList.push(item);
-
-    return item.text;
   }
 
   removeItem(text) {
