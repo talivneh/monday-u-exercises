@@ -1,12 +1,12 @@
 export default class View {
-  constructor(addItemHandler, deleteItemHandler, getAllItemsHandler) {
+  constructor(addItem, removeItem, getAllItems) {
+    this.addItemHandler = addItem;
+    this.deleteItemHandler = removeItem;
+    this.getAllItemsHandler = getAllItems;
     this.toDoInput = document.querySelector("input");
     this.listContainer = document.querySelector("ul");
     this.alertBox = document.querySelector(".alert");
     this.alertBoxText = document.querySelector(".alert-innet-text");
-    this.addItemHandler = addItemHandler;
-    this.deleteItemHandler = deleteItemHandler;
-    this.getAllItemsHandler = getAllItemsHandler;
   }
 
   init() {
