@@ -89,7 +89,7 @@ export default class View {
     };
 
     this.addItemHandler(item).then((itemName) =>
-      this.createNewToDoElement({ ...item, name: itemName })
+      this.createNewToDoElement({ ...item, text: itemName })
     );
   }
 
