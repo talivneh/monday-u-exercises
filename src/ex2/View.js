@@ -51,10 +51,10 @@ export default class View {
       textList.forEach((text) => this.validateInput(text.trim()));
     } else {
       const isValid = this.validateInput(text.trim());
-      if (isValid) {
+      if (!isValid.isExists && !isValid.isSpecial) {
         this.handleValidInput(text.trim());
       } else {
-        handleInvalidInput(text, isValid.isExists, isValid.isSpecial);
+        this.handleInvalidInput(text, isValid.isExists, isValid.isSpecial);
       }
     }
   }
@@ -68,7 +68,10 @@ export default class View {
       ];
     }
     if (isExists) {
-      alertContent = [`You are trying to add ${text} again`, "warning"];
+      alertContent = [
+        `You are trying to add exsisting task (${input})`,
+        "warning",
+      ];
     }
     this.alert(...alertContent);
   }
@@ -81,7 +84,12 @@ export default class View {
     let inValid = { isExists: false, isSpecial: false };
 
     const itemsList = this.getAllItemsHandler();
-    const isExists = itemsList.some((item) => item.text === text);
+    const isExists = itemsList.some(
+      (item) =>
+        item.text === text ||
+        item.name === text ||
+        item.name.split(" ")[1] === text
+    );
     const format = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
 
     if (isExists) {
@@ -98,6 +106,7 @@ export default class View {
   addNewItem(text) {
     const time = new Date().toLocaleDateString();
     const item = {
+      name: text,
       text,
       time,
       complete: false,
@@ -109,9 +118,8 @@ export default class View {
           : null;
       },
     };
-
     this.addItemHandler(item).then((itemName) =>
-      this.createNewToDoElement({ ...item, text: itemName })
+      this.createNewToDoElement({ ...item, name: itemName })
     );
   }
 
@@ -128,7 +136,7 @@ export default class View {
 
     const listItemText = document.createElement("span");
     listItemText.className = "todo-item";
-    listItemText.innerText = item.text;
+    listItemText.innerText = item.name;
     listItemText.addEventListener("click", () => {
       this.alert(this.createDetails(item), "info");
     });
@@ -193,8 +201,7 @@ export default class View {
   }
 
   createDetails(item) {
-    console.log(item.complete);
-    return `<span><span>To do:</span> ${item.text}</span>
+    return `<span><span>To do:</span> ${item.name}</span>
     <span><span>Creation-date:</span> ${item.time}</span>
     ${
       item.complete
