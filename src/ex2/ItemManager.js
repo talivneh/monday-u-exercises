@@ -9,8 +9,9 @@ export default class ItemManager {
   async addItem(item) {
     const newPokemonItem = await this.pokemonClient.isPokemonName(item.text);
     if (newPokemonItem) {
-      this.itemsList.push(newPokemonItem);
-      return newPokemonItem;
+      const pokemon = `Catch ${newPokemonItem}`;
+      this.itemsList.push(pokemon);
+      return pokemon;
     } else {
       this.itemsList.push(item);
       return item.text;
