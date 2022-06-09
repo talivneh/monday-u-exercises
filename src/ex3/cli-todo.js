@@ -4,9 +4,9 @@ import fs from "fs";
 import chalk from "chalk";
 
 const pokemonProgram = new Command();
+const path = "./todoApp.txt";
 
 async function addTodo(text) {
-  const path = "./todoApp.txt";
   let textToAdd;
   try {
     const pokemon = await getPokemon(text);
@@ -37,7 +37,7 @@ async function getPokemon(text) {
 }
 
 function getAllToDos() {
-  const todos = fs.readFileSync("./todoApp.txt", "utf8", (err) => {
+  const todos = fs.readFileSync(path, "utf8", (err) => {
     if (err) {
       throw err;
     }
@@ -50,7 +50,7 @@ function removeTodoByIndex(index) {
   const newTodoList = todos.split("\n");
   if (newTodoList[index]) {
     newTodoList.splice(index, 1);
-    fs.writeFileSync("./todoApp.txt", newTodoList.join("\n"));
+    fs.writeFileSync(path, newTodoList.join("\n"));
     consolSuccess("Item was successfully removed");
   } else {
     if (isNaN(Number(index))) {
