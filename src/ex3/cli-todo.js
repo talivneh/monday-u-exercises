@@ -16,9 +16,10 @@ async function addTodo(text) {
       textToAdd = `${text}\n`;
     }
     fs.appendFileSync(path, textToAdd);
-    consolSuccess("New todo added successfully");
+    consolSuccess(logMessage("added"));
   } catch {
     (err) => {
+      consoleError(logMessage("not-added"));
       throw err;
     };
   }
@@ -51,12 +52,12 @@ function removeTodoByIndex(index) {
   if (newTodoList[index]) {
     newTodoList.splice(index, 1);
     fs.writeFileSync(path, newTodoList.join("\n"));
-    consolSuccess("Item was successfully removed");
+    consolSuccess(logMessage("removed"));
   } else {
     if (isNaN(Number(index))) {
-      consoleError("index is not a valid number");
+      consoleError(logMessage("not-removed-invalid"));
     } else {
-      consoleError("index does not exsist in the list");
+      consoleError(logMessage("not-removed-missing"));
     }
   }
 }
@@ -67,6 +68,21 @@ const consoleError = (log) => {
 
 const consolSuccess = (log) => {
   console.log(chalk.greenBright(log));
+};
+
+const logMessage = (message) => {
+  switch (message) {
+    case "added":
+      return "New todo added successfully";
+    case "not-added":
+      return "Item was not added, please try again";
+    case "removed":
+      return "Item was successfully removed";
+    case "not-removed-invalid":
+      return "index is not a valid number";
+    case "not-removed-missing":
+      return "index does not exsist in the list";
+  }
 };
 
 pokemonProgram
