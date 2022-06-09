@@ -41,7 +41,23 @@ function getAllToDos() {
       throw err;
     }
   });
-  console.log(todos);
+  return todos;
+}
+
+function removeTodoByIndex(index) {
+  const todos = getAllToDos();
+  const newTodoList = todos.split("\n");
+  if (newTodoList[index]) {
+    newTodoList.splice(index, 1);
+    fs.writeFileSync("./todoApp.txt", newTodoList.join("\n"));
+    console.log("Item was successfully removed");
+  } else {
+    if (isNaN(Number(index))) {
+      console.log("index is not a valid number");
+    } else {
+      console.log("index does not exsist in the list");
+    }
+  }
 }
 
 pokemonProgram
@@ -63,14 +79,17 @@ pokemonProgram
   .description("Remove todo from the ToDo list")
   .argument("<string>", "todo text")
   // .option("-c, --color <string>", "Result color", "green")
-  .action((index) => {});
+  .action((index) => {
+    removeTodoByIndex(index);
+  });
 
 pokemonProgram
   .command("get")
   .description("Get all ToDos from the list")
   // .option("-c, --color <string>", "Result color", "green")
   .action(() => {
-    getAllToDos();
+    const allTodos = getAllToDos();
+    console.log(allTodos);
   });
 
 pokemonProgram.parse();
