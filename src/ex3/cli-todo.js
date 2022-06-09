@@ -1,6 +1,7 @@
 import { Command } from "commander";
 import fetch from "node-fetch";
 import fs from "fs";
+import chalk from "chalk";
 
 const pokemonProgram = new Command();
 
@@ -15,7 +16,7 @@ async function addTodo(text) {
       textToAdd = `${text}\n`;
     }
     fs.appendFileSync(path, textToAdd);
-    console.log("New todo added successfully");
+    consolSuccess("New todo added successfully");
   } catch {
     (err) => {
       throw err;
@@ -50,15 +51,23 @@ function removeTodoByIndex(index) {
   if (newTodoList[index]) {
     newTodoList.splice(index, 1);
     fs.writeFileSync("./todoApp.txt", newTodoList.join("\n"));
-    console.log("Item was successfully removed");
+    consolSuccess("Item was successfully removed");
   } else {
     if (isNaN(Number(index))) {
-      console.log("index is not a valid number");
+      consoleError("index is not a valid number");
     } else {
-      console.log("index does not exsist in the list");
+      consoleError("index does not exsist in the list");
     }
   }
 }
+
+const consoleError = (log) => {
+  console.log(chalk.redBright(log));
+};
+
+const consolSuccess = (log) => {
+  console.log(chalk.greenBright(log));
+};
 
 pokemonProgram
   .name("todo-app")
