@@ -69,7 +69,6 @@ pokemonProgram
   .command("add")
   .description("Add todo to the ToDo list")
   .argument("<string>", "todo text")
-  // .option("-c, --color <string>", "Result color", "green")
   .action((todoText) => {
     addTodo(todoText);
   });
@@ -77,8 +76,7 @@ pokemonProgram
 pokemonProgram
   .command("remove")
   .description("Remove todo from the ToDo list")
-  .argument("<string>", "todo text")
-  // .option("-c, --color <string>", "Result color", "green")
+  .argument("<number>", "item index number")
   .action((index) => {
     removeTodoByIndex(index);
   });
@@ -86,7 +84,6 @@ pokemonProgram
 pokemonProgram
   .command("get")
   .description("Get all ToDos from the list")
-  // .option("-c, --color <string>", "Result color", "green")
   .action(() => {
     const allTodos = getAllToDos();
     console.log(allTodos);
