@@ -18,7 +18,7 @@ async function addTodo(text) {
     console.log("New todo added successfully");
   } catch {
     (err) => {
-      console.log(err);
+      throw err;
     };
   }
 }
@@ -30,9 +30,18 @@ async function getPokemon(text) {
     return json;
   } catch {
     (err) => {
-      return err;
+      throw err;
     };
   }
+}
+
+function getAllToDos() {
+  const todos = fs.readFileSync("./todoApp.txt", "utf8", (err) => {
+    if (err) {
+      throw err;
+    }
+  });
+  console.log(todos);
 }
 
 pokemonProgram
@@ -54,26 +63,14 @@ pokemonProgram
   .description("Remove todo from the ToDo list")
   .argument("<string>", "todo text")
   // .option("-c, --color <string>", "Result color", "green")
-  .action((todoText) => {
-    itemManager.removeItem({ text: todoText }).then((resault) => {
-      console.log(
-        // chalk[options.color](
-        `${resault} was removed successfully`
-        // )
-      );
-    });
-  });
+  .action((index) => {});
 
 pokemonProgram
   .command("get")
   .description("Get all ToDos from the list")
   // .option("-c, --color <string>", "Result color", "green")
   .action(() => {
-    console.log(
-      // chalk[options.color](
-      itemManager.getAllItems()
-      // )
-    );
+    getAllToDos();
   });
 
 pokemonProgram.parse();
