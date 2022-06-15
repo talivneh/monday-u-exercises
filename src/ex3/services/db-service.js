@@ -8,7 +8,6 @@ export async function addTodo(text) {
   let textToAdd;
   try {
     const pokemon = await fetchPokemon(text);
-    console.log(pokemon);
     if (pokemon && pokemon.name) {
       textToAdd = `Catch ${pokemon.name}\n`;
     } else {

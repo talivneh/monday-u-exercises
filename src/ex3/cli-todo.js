@@ -13,16 +13,21 @@ const pokemonProgram = new Command();
 function handleAddCommand(text) {
   const textList = text.split(",");
   if (textList.length > 1) {
-    textList.forEach((text) => validateInput(text.trim()));
+    textList.forEach((text) =>
+      afterValidation(validateInput(text.trim()), text)
+    );
   } else {
-    const isValid = validateInput(text.trim());
-    if (!isValid.isExists && !isValid.isSpecial) {
-      addTodo(text.trim());
-    } else {
-      isValid.isExists
-        ? consoleError(logMessage.NOT_ADD_EXISTS)
-        : consoleError(logMessage.NOT_ADD_INVALID);
-    }
+    afterValidation(validateInput(text.trim()), text);
+  }
+}
+
+function afterValidation(isValid, text) {
+  if (!isValid.isExists && !isValid.isSpecial) {
+    addTodo(text.trim());
+  } else {
+    isValid.isExists
+      ? consoleError(logMessage.NOT_ADD_EXISTS)
+      : consoleError(logMessage.NOT_ADD_INVALID);
   }
 }
 
