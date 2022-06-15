@@ -1,64 +1,27 @@
 import { Command } from "commander";
-import fetch from "node-fetch";
-import fs from "fs";
 
-import { consoleSuccess, consoleError, logMessage } from "./console-service";
+import { consoleError, logMessage } from "./services/console-service.js";
+import { validateInput } from "./services/input-validation-service.js";
+import {
+  addTodo,
+  removeTodoByIndex,
+  getAllToDos,
+} from "./services/db-service.js";
 
 const pokemonProgram = new Command();
-const path = "./todoApp.txt";
 
-async function addTodo(text) {
-  let textToAdd;
-  try {
-    const pokemon = await getPokemon(text);
-    if (pokemon && pokemon.name) {
-      textToAdd = `Catch ${pokemon.name}\n`;
-    } else {
-      textToAdd = `${text}\n`;
-    }
-    fs.appendFileSync(path, textToAdd);
-    consoleSuccess(logMessage.ADD);
-  } catch {
-    (err) => {
-      consoleError(logMessage.NOT_ADD);
-      throw err;
-    };
-  }
-}
-
-async function getPokemon(text) {
-  try {
-    const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${text}`);
-    const json = await response.json();
-    return json;
-  } catch {
-    (err) => {
-      throw err;
-    };
-  }
-}
-
-function getAllToDos() {
-  const todos = fs.readFileSync(path, "utf8", (err) => {
-    if (err) {
-      throw err;
-    }
-  });
-  return todos;
-}
-
-function removeTodoByIndex(index) {
-  const todos = getAllToDos();
-  const newTodoList = todos.split("\n");
-  if (newTodoList[index]) {
-    newTodoList.splice(index, 1);
-    fs.writeFileSync(path, newTodoList.join("\n"));
-    consoleSuccess(logMessage.REMOVE);
+function handleAddCommand(text) {
+  const textList = text.split(",");
+  if (textList.length > 1) {
+    textList.forEach((text) => validateInput(text.trim()));
   } else {
-    if (isNaN(Number(index))) {
-      consoleError(logMessage.NOT_REMOVE_INVALID);
+    const isValid = validateInput(text.trim());
+    if (!isValid.isExists && !isValid.isSpecial) {
+      addTodo(text.trim());
     } else {
-      consoleError(logMessage.NOT_REMOVE_MISSING);
+      isValid.isExists
+        ? consoleError(logMessage.NOT_ADD_EXISTS)
+        : consoleError(logMessage.NOT_ADD_INVALID);
     }
   }
 }
@@ -73,7 +36,7 @@ pokemonProgram
   .description("Add todo to the ToDo list")
   .argument("<string>", "todo text")
   .action((todoText) => {
-    addTodo(todoText);
+    handleAddCommand(todoText);
   });
 
 pokemonProgram
