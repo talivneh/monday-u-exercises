@@ -1,7 +1,8 @@
 import { Command } from "commander";
 import fetch from "node-fetch";
 import fs from "fs";
-import chalk from "chalk";
+
+import { consoleSuccess, consoleError, logMessage } from "./console-service";
 
 const pokemonProgram = new Command();
 const path = "./todoApp.txt";
@@ -16,10 +17,10 @@ async function addTodo(text) {
       textToAdd = `${text}\n`;
     }
     fs.appendFileSync(path, textToAdd);
-    consolSuccess(logMessage("added"));
+    consoleSuccess(logMessage.ADD);
   } catch {
     (err) => {
-      consoleError(logMessage("not-added"));
+      consoleError(logMessage.NOT_ADD);
       throw err;
     };
   }
@@ -52,38 +53,15 @@ function removeTodoByIndex(index) {
   if (newTodoList[index]) {
     newTodoList.splice(index, 1);
     fs.writeFileSync(path, newTodoList.join("\n"));
-    consolSuccess(logMessage("removed"));
+    consoleSuccess(logMessage.REMOVE);
   } else {
     if (isNaN(Number(index))) {
-      consoleError(logMessage("not-removed-invalid"));
+      consoleError(logMessage.NOT_REMOVE_INVALID);
     } else {
-      consoleError(logMessage("not-removed-missing"));
+      consoleError(logMessage.NOT_REMOVE_MISSING);
     }
   }
 }
-
-const consoleError = (log) => {
-  console.log(chalk.redBright(log));
-};
-
-const consolSuccess = (log) => {
-  console.log(chalk.greenBright(log));
-};
-
-const logMessage = (message) => {
-  switch (message) {
-    case "added":
-      return "New todo added successfully";
-    case "not-added":
-      return "Item was not added, please try again";
-    case "removed":
-      return "Item was successfully removed";
-    case "not-removed-invalid":
-      return "index is not a valid number";
-    case "not-removed-missing":
-      return "index does not exsist in the list";
-  }
-};
 
 pokemonProgram
   .name("todo-app")
