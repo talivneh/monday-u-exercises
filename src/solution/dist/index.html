@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>ToDo - Tal Livneh</title>
+    <link rel="stylesheet" href="./style.css" />
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+  />
+  <script src="https://kit.fontawesome.com/3fa08c398f.js"></script>
+  <script src="view.js" type="module"></script>
+  <script src="main.js" type="module"></script>
+</head>
+  <body>
+    <div class="app-wrapper">
+      <header>ToDo - Tal Livneh</header>
+      <div class="input-field">
+        <input type="text" placeholder="add new ToDo" />
+        <button id="add-todo"><i class="fas fa-plus"></i></button>
+      </div>
+      <div class="todo-list">
+        <div class="empty-list hide">
+            <span>Hi! You Have Nothing ToDo!</span>
+        </div>
+      <ul></ul>
+    </div>
+      <footer class="hide">
+        <span>You have <span id="tasks-number">0</span> pending tasks</span>
+        <button id="clear-all">Clear All <i class="fas fa-trash"></i></button>
+      </div>
+    </div>
+    <div class="alert">
+      <button id="alert-close-btn">X</button>
+      <span class="alert-innet-text"></span>
+    </div>
+    <div class="loader"></div>
+  </body>
+</html>

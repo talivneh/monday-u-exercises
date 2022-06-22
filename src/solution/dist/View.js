@@ -1,14 +1,18 @@
-import { validateInput } from "./services/input-validation-service";
+import { validateInput } from "./services/input-validation-service.js";
 
 export default class View {
-  constructor(addItem, removeItem, getAllItems) {
-    this.addItemHandler = addItem;
-    this.deleteItemHandler = removeItem;
-    this.getAllItemsHandler = getAllItems;
+  constructor(itemClient) {
+    this.addItemHandler = itemClient.addItem;
+    this.getItemHandler = itemClient.getItem;
+    this.updateCompleteHandler = itemClient.updateComplete;
+    this.deleteItemHandler = itemClient.removeItem;
+    this.deleteAllItemsHandler = itemClient.removeAllItems;
+    this.getAllItemsHandler = itemClient.getAllItems;
     this.toDoInput = document.querySelector("input");
     this.listContainer = document.querySelector("ul");
     this.alertBox = document.querySelector(".alert");
     this.alertBoxText = document.querySelector(".alert-innet-text");
+    this.loader = document.querySelector(".loader");
   }
 
   init() {
@@ -18,10 +22,14 @@ export default class View {
     });
 
     const deleteAllBtn = document.getElementById("clear-all");
-    deleteAllBtn.addEventListener("click", () => {
-      this.listContainer.childNodes.forEach((item) => {
-        this.deleteItem(item);
+    deleteAllBtn.addEventListener("click", async () => {
+      this.toggleLoader();
+      const items = await this.deleteAllItemsHandler();
+      items.forEach((item) => {
+        const element = document.getElementById(item.id);
+        this.deleteEffect(element);
       });
+      this.toggleLoader();
     });
   }
 
@@ -47,34 +55,32 @@ export default class View {
     this.resetInput();
   }
 
-  handleInput(text) {
+  async handleInput(text) {
     const textList = text.split(",");
-    if (textList.length > 1) {
-      textList.forEach((text) => validateInput(text.trim()));
+    if (textList && textList.length > 1) {
+      textList.forEach(async (textInput) => {
+        await this.validate(textInput);
+      });
     } else {
-      const isValid = validateInput(text.trim());
-      if (!isValid.isExists && !isValid.isSpecial) {
-        this.handleValidInput(text.trim());
-      } else {
-        this.handleInvalidInput(text, isValid.isExists, isValid.isSpecial);
-      }
+      await this.validate(text);
     }
   }
 
-  handleInvalidInput(input, isExists, isSpecial) {
+  async validate(text) {
+    const isValid = await validateInput(text.trim());
+    if (isValid) {
+      this.handleValidInput(text.trim());
+    } else {
+      this.handleInvalidInput(text);
+    }
+  }
+
+  handleInvalidInput(input) {
     let alertContent;
-    if (isSpecial) {
-      alertContent = [
-        `${input} is invalid input. please use letters and numbers only`,
-        "warning",
-      ];
-    }
-    if (isExists) {
-      alertContent = [
-        `You are trying to add exsisting task (${input})`,
-        "warning",
-      ];
-    }
+    alertContent = [
+      `${input} is invalid input. please use letters and numbers only`,
+      "warning",
+    ];
     this.alert(...alertContent);
   }
 
@@ -83,48 +89,49 @@ export default class View {
   }
 
   async addNewItem(text) {
-    const time = new Date().toLocaleDateString();
-    const item = {
-      name: text,
-      text,
-      time,
-      complete: false,
-      checkTime: null,
-      toggleComplete() {
-        this.complete = !this.complete;
-        this.checkTime = !this.checkTime
-          ? new Date().toLocaleDateString()
-          : null;
-      },
-    };
-
-    await this.addItemHandler(item);
-    this.renderItems();
+    this.toggleLoader();
+    const item = await this.addItemHandler(text);
+    this.toggleLoader();
+    if (!item.error) {
+      this.renderItems([item]);
+    } else {
+      this.alert(item.error, "warning");
+    }
   }
 
-  renderItems() {
-    this.listContainer.innerHTML = "";
-    const items = this.getAllItemsHandler();
-    items.forEach((item) => this.createNewToDoElement(item));
+  async renderItems(items) {
+    if (items && items.length) {
+      items.forEach((item) => this.createNewToDoElement(item));
+    }
+    this.updateTasksNum();
   }
 
   createNewToDoElement(item) {
     const listItem = document.createElement("li");
+    listItem.id = item.id;
 
     const listItemCheckbox = document.createElement("input");
+    listItemCheckbox.checked = item.complete;
     listItemCheckbox.setAttribute("type", "checkbox");
     listItemCheckbox.className = "todo-item-checkbox";
 
-    listItemCheckbox.addEventListener("change", () => {
-      item.toggleComplete();
-      this.updateTasksNum();
+    listItemCheckbox.addEventListener("change", async () => {
+      const relevantItem = await this.getItemHandler(item.id);
+      const updateFields = {
+        complete: !relevantItem.complete,
+        checkTime: relevantItem.complete
+          ? null
+          : new Date().toLocaleDateString(),
+      };
+      await this.updateCompleteHandler(item.id, updateFields);
+      await this.updateTasksNum();
     });
 
     const listItemText = document.createElement("span");
     listItemText.className = "todo-item";
-    listItemText.innerText = item.name;
-    listItemText.addEventListener("click", () => {
-      this.alert(this.createDetails(item), "info");
+    listItemText.innerText = item.text;
+    listItemText.addEventListener("click", async () => {
+      this.alert(await this.createDetails(item.id), "info");
     });
 
     const listItemRemoveBtnContainer = document.createElement("span");
@@ -143,10 +150,14 @@ export default class View {
     listItem.appendChild(listItemRemoveBtnContainer);
 
     this.listContainer.appendChild(listItem);
-    this.updateTasksNum();
   }
 
-  deleteItem(elementToDelte) {
+  async deleteItem(elementToDelte) {
+    this.deleteEffect(elementToDelte);
+    await this.deleteItemHandler(elementToDelte.id);
+  }
+
+  deleteEffect(elementToDelte) {
     const container = this.listContainer;
     elementToDelte.classList.add("leave");
 
@@ -156,17 +167,16 @@ export default class View {
       container.removeChild(elementToDelte);
       updateTasksNum.call(this);
     }, 800);
-
-    this.deleteItemHandler(elementToDelte.innerText);
   }
 
-  updateTasksNum() {
-    const taskNum = this.getAllItemsHandler().filter((item) => {
+  async updateTasksNum() {
+    this.toggleEmptyView();
+    const taskList = await this.getAllItemsHandler();
+    const taskNum = taskList.filter((item) => {
       return !item.complete;
     }).length;
     const footersItemsNumberSpan = document.getElementById("tasks-number");
     footersItemsNumberSpan.innerText = taskNum;
-    this.toggleEmptyView.call(this);
   }
 
   toggleEmptyView() {
@@ -178,9 +188,7 @@ export default class View {
       footer.classList.remove("hide");
     } else {
       footer.classList.add("hide");
-      setTimeout(() => {
-        listPlaceHolder.classList.remove("hide");
-      }, 100);
+      listPlaceHolder.classList.remove("hide");
     }
   }
 
@@ -188,13 +196,14 @@ export default class View {
     this.alertBox.classList.remove("show", "warning", "info");
   }
 
-  createDetails(item) {
-    return `<span><span>To do:</span> ${item.name}</span>
-    <span><span>Creation-date:</span> ${item.time}</span>
+  async createDetails(id) {
+    const itemDetails = await this.getItemHandler(id);
+    return `<span><span>To do:</span> ${itemDetails.text}</span>
+    <span><span>Creation-date:</span> ${itemDetails.time}</span>
     ${
-      item.complete
+      itemDetails.complete
         ? `<span class="done"><span>Done at:</span> ` +
-          item.checkTime +
+          itemDetails.checkTime +
           `</span>`
         : ``
     } `;
@@ -209,5 +218,9 @@ export default class View {
       this.alertBox.classList.add("show", type);
       this.alertBoxText.innerHTML = alert;
     }
+  }
+
+  toggleLoader() {
+    this.loader.classList.toggle("show");
   }
 }
