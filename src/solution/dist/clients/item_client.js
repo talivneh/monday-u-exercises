@@ -7,32 +7,37 @@ export default class ItemClient {
   async addItem(itemText) {
     const todo = { text: itemText };
     try {
-      const items = await fetch(`http://localhost:8080/items`, {
+      const item = await fetch(`http://localhost:8080/items`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(todo),
       });
-      const itemsJson = await items.json();
-      return itemsJson;
+      const itemJson = await item.json();
+      return itemJson;
     } catch (err) {
       console.log(err);
     }
   }
 
-  async updateComplete(todo) {
-    const updateFields = {
-      complete: !todo.complete,
-      checkTime: todo.complete ? null : new Date().toLocaleDateString(),
-    };
-
+  async getItem(id) {
     try {
-      const items = await fetch(`http://localhost:8080/items/${todo.id}`, {
+      const item = await fetch(`http://localhost:8080/items/${id}`);
+      const itemJson = await item.json();
+      return itemJson;
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  async updateComplete(id, fields) {
+    try {
+      const items = await fetch(`http://localhost:8080/items/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updateFields),
+        body: JSON.stringify(fields),
       });
-      const itemsJson = await items.json();
-      return itemsJson;
+      const updatedItem = await items.json();
+      return updatedItem;
     } catch (err) {
       console.log(err);
     }
@@ -40,11 +45,11 @@ export default class ItemClient {
 
   async removeItem(id) {
     try {
-      const items = await fetch(`http://localhost:8080/items/${id}`, {
+      const item = await fetch(`http://localhost:8080/items/${id}`, {
         method: "DELETE",
       });
-      const itemsJson = await items.json();
-      return itemsJson;
+      const deletedItem = await item.json();
+      return deletedItem;
     } catch (err) {
       console.log(err);
     }

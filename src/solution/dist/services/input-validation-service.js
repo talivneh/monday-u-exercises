@@ -1,6 +1,6 @@
 // todo: move exsits validation to server
 
-export async function validateInput(text, getAllItems) {
+export async function validateInput(text) {
   // let inValid = { isExists: false, isSpecial: false };
 
   // //todo- move validation to the backend

@@ -2,7 +2,6 @@
 const todoService = require("../services/todo_manager.js");
 const { fetchPokemon } = require("../clients/pokemon_client.js");
 
-//doesnt work
 async function createTodo(req, res) {
   let newTodo = req.body.text;
   const newPokemonItem = await fetchPokemon(newTodo);
@@ -10,11 +9,11 @@ async function createTodo(req, res) {
     const catchPokemon = `Catch ${newPokemonItem.name}`;
     newTodo = catchPokemon;
   }
-  const isExists = await todoService.getTodo(newTodo);
+  const isExists = await todoService.getTodoByText(newTodo);
   if (isExists)
     return res.status(400).json({
       status: 400,
-      error: "todo allready exists",
+      error: "This todo item is allready exists",
     });
   const newAddedTodo = await todoService.addTodo(newTodo);
   res.status(200).json(newAddedTodo);
@@ -29,7 +28,7 @@ async function getTodo(req, res) {
       error: "wrong parameters",
     });
 
-  const todo = await todoService.getTodo(todoId);
+  const todo = await todoService.getTodoById(todoId);
 
   if (!todo) {
     //fix error handling
@@ -58,9 +57,9 @@ async function updateTodo(req, res) {
       error: "wrong parameters",
     });
 
-  const todoList = await todoService.updateTodo(todoId, fieldToUpdate);
+  const updatedTodo = await todoService.updateTodo(todoId, fieldToUpdate);
 
-  if (!todoList) {
+  if (!updatedTodo) {
     //fix error handling
     return res.status(404).json({
       status: 404,
@@ -68,7 +67,7 @@ async function updateTodo(req, res) {
     });
   }
 
-  res.status(200).json(todoList);
+  res.status(200).json(updatedTodo);
 }
 
 async function getAll(req, res) {
@@ -86,8 +85,8 @@ async function deleteTodo(req, res) {
       error: "wrong parameters",
     });
 
-  const data = await todoService.deleteTodo(todoId);
-  res.status(200).json(data);
+  const deletedItem = await todoService.deleteTodo(todoId);
+  res.status(200).json(deletedItem);
 }
 
 async function deleteAllTodo(req, res) {
@@ -97,6 +96,7 @@ async function deleteAllTodo(req, res) {
 
 module.exports = {
   createTodo,
+  getTodo,
   updateTodo,
   deleteTodo,
   getAll,

@@ -22,24 +22,25 @@ async function addTodo(text) {
   }
   data.push(newTodo);
   await writeTodoFile(data);
-  return data;
+  return newTodo;
 }
 
 async function updateTodo(todoId, fields) {
   const data = await readTodoFile();
-  const newData = data.map((item) =>
-    item.id === todoId
-      ? {
-          ...item,
-          ...fields,
-        }
-      : item
-  );
-  await writeTodoFile(newData);
-  return newData;
+  let itemToUpdate = data.find((item) => item.id === todoId);
+  updatetItem = { ...itemToUpdate, ...fields };
+  const itemsIndex = data.indexOf(itemToUpdate);
+  data[itemsIndex] = updatetItem;
+  await writeTodoFile(data);
+  return itemToUpdate;
 }
 
-async function getTodo(text) {
+async function getTodoById(id) {
+  const data = await readTodoFile();
+  return data.find((value) => value.id === id);
+}
+
+async function getTodoByText(text) {
   const data = await readTodoFile();
   return data.find((value) => value.text === text);
 }
@@ -49,7 +50,6 @@ async function readTodoFile() {
     const data = await fs.readFile(todoFile);
     return JSON.parse(data.toString());
   } catch (error) {
-    // console.error(`Got an error trying to read the file: ${error.message}`);
     return new Error(error);
   }
 }
@@ -58,28 +58,31 @@ async function writeTodoFile(content) {
   try {
     await fs.writeFile(todoFile, JSON.stringify(content));
   } catch (error) {
-    // console.error(`Failed to write to file ${error.message}`);
     return new Error(error);
   }
 }
 
 async function deleteTodo(id) {
   const data = await getAll();
-  const filterdData = data.filter((value) => value.id !== id);
-  await writeTodoFile(filterdData);
-  return filterdData;
+  let itemToDelete = data.find((item) => item.id === id);
+  data.splice(data.indexOf(itemToDelete), 1);
+  // const filteredData = data.filter((value) => value.id !== id);
+  await writeTodoFile(data);
+  return itemToDelete;
 }
 
 async function deleteAllTodo() {
+  const data = await readTodoFile();
   await writeTodoFile([]);
-  return [];
+  return data;
 }
 
 module.exports = {
   addTodo,
   updateTodo,
   getAll,
-  getTodo,
+  getTodoById,
+  getTodoByText,
   deleteTodo,
   deleteAllTodo,
 };

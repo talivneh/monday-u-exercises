@@ -3,6 +3,7 @@ import { validateInput } from "./services/input-validation-service.js";
 export default class View {
   constructor(itemClient) {
     this.addItemHandler = itemClient.addItem;
+    this.getItemHandler = itemClient.getItem;
     this.updateCompleteHandler = itemClient.updateComplete;
     this.deleteItemHandler = itemClient.removeItem;
     this.deleteAllItemsHandler = itemClient.removeAllItems;
@@ -24,8 +25,11 @@ export default class View {
     deleteAllBtn.addEventListener("click", async () => {
       this.toggleLoader();
       const items = await this.deleteAllItemsHandler();
+      items.forEach((item) => {
+        const element = document.getElementById(item.id);
+        this.deleteEffect(element);
+      });
       this.toggleLoader();
-      this.renderItems(items);
     });
   }
 
@@ -63,7 +67,7 @@ export default class View {
   }
 
   async validate(text) {
-    const isValid = await validateInput(text.trim(), this.getAllItemsHandler);
+    const isValid = await validateInput(text.trim());
     if (isValid) {
       this.handleValidInput(text.trim());
     } else {
@@ -73,18 +77,10 @@ export default class View {
 
   handleInvalidInput(input) {
     let alertContent;
-    // if (isSpecial) {
     alertContent = [
       `${input} is invalid input. please use letters and numbers only`,
       "warning",
     ];
-    // }
-    // if (isExists) {
-    //   alertContent = [
-    //     `You are trying to add exsisting task (${input})`,
-    //     "warning",
-    //   ];
-    // }
     this.alert(...alertContent);
   }
 
@@ -94,13 +90,16 @@ export default class View {
 
   async addNewItem(text) {
     this.toggleLoader();
-    const items = await this.addItemHandler(text);
+    const item = await this.addItemHandler(text);
     this.toggleLoader();
-    this.renderItems(items);
+    if (!item.error) {
+      this.renderItems([item]);
+    } else {
+      this.alert(item.error, "warning");
+    }
   }
 
   async renderItems(items) {
-    this.listContainer.innerHTML = "";
     if (items && items.length) {
       items.forEach((item) => this.createNewToDoElement(item));
     }
@@ -117,15 +116,22 @@ export default class View {
     listItemCheckbox.className = "todo-item-checkbox";
 
     listItemCheckbox.addEventListener("change", async () => {
-      const items = await this.updateCompleteHandler(item);
-      this.renderItems(items);
+      const relevantItem = await this.getItemHandler(item.id);
+      const updateFields = {
+        complete: !relevantItem.complete,
+        checkTime: relevantItem.complete
+          ? null
+          : new Date().toLocaleDateString(),
+      };
+      await this.updateCompleteHandler(item.id, updateFields);
+      await this.updateTasksNum();
     });
 
     const listItemText = document.createElement("span");
     listItemText.className = "todo-item";
     listItemText.innerText = item.text;
-    listItemText.addEventListener("click", () => {
-      this.alert(this.createDetails(item), "info");
+    listItemText.addEventListener("click", async () => {
+      this.alert(await this.createDetails(item.id), "info");
     });
 
     const listItemRemoveBtnContainer = document.createElement("span");
@@ -144,7 +150,6 @@ export default class View {
     listItem.appendChild(listItemRemoveBtnContainer);
 
     this.listContainer.appendChild(listItem);
-    this.updateTasksNum();
   }
 
   async deleteItem(elementToDelte) {
@@ -191,13 +196,14 @@ export default class View {
     this.alertBox.classList.remove("show", "warning", "info");
   }
 
-  createDetails(item) {
-    return `<span><span>To do:</span> ${item.text}</span>
-    <span><span>Creation-date:</span> ${item.time}</span>
+  async createDetails(id) {
+    const itemDetails = await this.getItemHandler(id);
+    return `<span><span>To do:</span> ${itemDetails.text}</span>
+    <span><span>Creation-date:</span> ${itemDetails.time}</span>
     ${
-      item.complete
+      itemDetails.complete
         ? `<span class="done"><span>Done at:</span> ` +
-          item.checkTime +
+          itemDetails.checkTime +
           `</span>`
         : ``
     } `;
