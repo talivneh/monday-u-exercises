@@ -29,7 +29,7 @@ export default class ItemClient {
     }
   }
 
-  async updateComplete(id, fields) {
+  async updateStatus(id, fields) {
     try {
       const items = await fetch(`http://localhost:8080/items/${id}`, {
         method: "PUT",

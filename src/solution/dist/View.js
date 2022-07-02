@@ -4,7 +4,7 @@ export default class View {
   constructor(itemClient) {
     this.addItemHandler = itemClient.addItem;
     this.getItemHandler = itemClient.getItem;
-    this.updateCompleteHandler = itemClient.updateComplete;
+    this.updateStatusHandler = itemClient.updateStatus;
     this.deleteItemHandler = itemClient.removeItem;
     this.deleteAllItemsHandler = itemClient.removeAllItems;
     this.getAllItemsHandler = itemClient.getAllItems;
@@ -111,25 +111,22 @@ export default class View {
     listItem.id = item.id;
 
     const listItemCheckbox = document.createElement("input");
-    listItemCheckbox.checked = item.complete;
+    listItemCheckbox.checked = item.status;
     listItemCheckbox.setAttribute("type", "checkbox");
     listItemCheckbox.className = "todo-item-checkbox";
 
     listItemCheckbox.addEventListener("change", async () => {
       const relevantItem = await this.getItemHandler(item.id);
       const updateFields = {
-        complete: !relevantItem.complete,
-        checkTime: relevantItem.complete
-          ? null
-          : new Date().toLocaleDateString(),
+        status: !relevantItem.status,
       };
-      await this.updateCompleteHandler(item.id, updateFields);
+      await this.updateStatusHandler(item.id, updateFields);
       await this.updateTasksNum();
     });
 
     const listItemText = document.createElement("span");
     listItemText.className = "todo-item";
-    listItemText.innerText = item.text;
+    listItemText.innerText = item.itemName;
     listItemText.addEventListener("click", async () => {
       this.alert(await this.createDetails(item.id), "info");
     });
@@ -173,7 +170,7 @@ export default class View {
     this.toggleEmptyView();
     const taskList = await this.getAllItemsHandler();
     const taskNum = taskList.filter((item) => {
-      return !item.complete;
+      return !item.status;
     }).length;
     const footersItemsNumberSpan = document.getElementById("tasks-number");
     footersItemsNumberSpan.innerText = taskNum;
@@ -198,12 +195,12 @@ export default class View {
 
   async createDetails(id) {
     const itemDetails = await this.getItemHandler(id);
-    return `<span><span>To do:</span> ${itemDetails.text}</span>
-    <span><span>Creation-date:</span> ${itemDetails.time}</span>
+    return `<span><span>To do:</span> ${itemDetails.itemName}</span>
+    <span><span>Creation-date:</span> ${itemDetails.createdAt}</span>
     ${
-      itemDetails.complete
+      itemDetails.status
         ? `<span class="done"><span>Done at:</span> ` +
-          itemDetails.checkTime +
+          itemDetails.updatedAt +
           `</span>`
         : ``
     } `;

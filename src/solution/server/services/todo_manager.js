@@ -1,80 +1,60 @@
-const fs = require("fs").promises;
-const todoFile = "./data/todo_list.json";
+const { Item } = require("../db/models");
 
 async function getAll() {
-  const data = await readTodoFile();
-  return data;
+  const items = await Item.findAll({
+    raw: true,
+  });
+  return items.map((item) => ({
+    id: item.id,
+    itemName: item.itemName,
+    status: item.status,
+  }));
 }
 
 async function addTodo(text) {
-  const data = await readTodoFile();
-  let id = 1;
-  if (data.length) id = data[data.length - 1].id + 1;
-  const newTodo = {
-    id,
-    text,
-    time: new Date().toLocaleDateString(),
-    complete: false,
-    checkTime: null,
-  };
-  if (!data) {
-    data = [];
-  }
-  data.push(newTodo);
-  await writeTodoFile(data);
-  return newTodo;
+  const item = await Item.create({
+    itemName: text,
+    status: false,
+  });
+  return item;
 }
 
-async function updateTodo(todoId, fields) {
-  const data = await readTodoFile();
-  let itemToUpdate = data.find((item) => item.id === todoId);
-  updatetItem = { ...itemToUpdate, ...fields };
-  const itemsIndex = data.indexOf(itemToUpdate);
-  data[itemsIndex] = updatetItem;
-  await writeTodoFile(data);
-  return itemToUpdate;
+async function updateTodo(id, fields) {
+  const item = await Item.update({ ...fields }, { where: { id } });
+  return item;
 }
 
 async function getTodoById(id) {
-  const data = await readTodoFile();
-  return data.find((value) => value.id === id);
+  const item = Item.findOne({
+    where: {
+      id,
+    },
+  });
+  return item;
 }
 
 async function getTodoByText(text) {
-  const data = await readTodoFile();
-  return data.find((value) => value.text === text);
-}
-
-async function readTodoFile() {
-  try {
-    const data = await fs.readFile(todoFile);
-    return JSON.parse(data.toString());
-  } catch (error) {
-    return new Error(error);
-  }
-}
-
-async function writeTodoFile(content) {
-  try {
-    await fs.writeFile(todoFile, JSON.stringify(content));
-  } catch (error) {
-    return new Error(error);
-  }
+  const item = Item.findOne({
+    where: {
+      itemName: text,
+    },
+  });
+  return item;
 }
 
 async function deleteTodo(id) {
-  const data = await getAll();
-  let itemToDelete = data.find((item) => item.id === id);
-  data.splice(data.indexOf(itemToDelete), 1);
-  // const filteredData = data.filter((value) => value.id !== id);
-  await writeTodoFile(data);
-  return itemToDelete;
+  const item = await Item.destroy({
+    where: {
+      id,
+    },
+  });
+  return item;
 }
 
 async function deleteAllTodo() {
-  const data = await readTodoFile();
-  await writeTodoFile([]);
-  return data;
+  const items = await getAll();
+  await Item.truncate();
+  return items;
 }
 
 module.exports = {
