@@ -1,7 +1,7 @@
 import "./TodoList.css";
 import TodoItem from "../TodoItem/TodoItem";
 
-export default function TodoList({ list }) {
+export default function TodoList({ list, setAlert }) {
   return (
     <div className="todo-list">
       {list.length ? (
@@ -12,6 +12,7 @@ export default function TodoList({ list }) {
               id={item.id}
               itemName={item.itemName}
               status={item.status}
+              setAlert={setAlert}
             />
           ))}
         </ul>

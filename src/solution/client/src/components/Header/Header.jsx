@@ -6,10 +6,27 @@ import { useState } from "react";
 export default function Header({ setAlert, setShowLoader }) {
   const [input, setInput] = useState("");
 
-  const addNewItem = (text) => {
+  const handleInput = (text) => {
     setShowLoader(true);
-    addItem(text);
+    const textList = text.split(",");
+    if (textList && textList.length > 1) {
+      textList.forEach((textItem) => {
+        validateInput(textItem)
+          ? addItem(textItem)
+          : handleInvalidInput(textItem);
+      });
+    } else {
+      validateInput(text) ? addItem(text) : handleInvalidInput(text);
+    }
     setShowLoader(false);
+  };
+
+  const handleInvalidInput = (input) => {
+    setAlert({
+      show: true,
+      type: "warning",
+      content: `${input} is invalid input. please use letters and numbers only`,
+    });
   };
 
   return (
@@ -27,13 +44,7 @@ export default function Header({ setAlert, setShowLoader }) {
         <button
           id="add-todo"
           onClick={() => {
-            validateInput(input)
-              ? addNewItem(input)
-              : setAlert({
-                  show: true,
-                  type: "warning",
-                  content: "invalid-input",
-                });
+            handleInput(input);
             setInput("");
           }}
         >

@@ -53,11 +53,16 @@
     margin-bottom: 45px;
 }
 
-.alert .alert-innet-text > span > span{
+.alert .alert-innet-text > span{
+    display: flex;
+    flex-direction: column;
+}
+
+.alert .alert-innet-text .title{
 font-weight: 700;
 color: #063970;
 }
 
-.alert .alert-innet-text > span.done , .alert .alert-innet-text > span.done > span{
+.alert .alert-innet-text  span.done , .alert .alert-innet-text  span.done > span{
     color: #1ca148;
 }

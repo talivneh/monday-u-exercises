@@ -23,7 +23,7 @@ function App() {
   return (
     <div className="app-wrapper">
       <Header setAlert={setAlert} setShowLoader={setShowLoader} />
-      <TodoList list={itemsList} />
+      <TodoList list={itemsList} setAlert={setAlert} />
       <Footer itemsList={itemsList} />
       <Alert alert={alert} setAlert={setAlert} />
       <Loader visible={showLoader} />

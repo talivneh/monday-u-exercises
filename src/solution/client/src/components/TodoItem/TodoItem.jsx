@@ -1,19 +1,25 @@
 import "./TodoItem.css";
-import { updateStatus, deleteItem } from "../../services/dataService";
+import { updateStatus, removeItem, getItem } from "../../services/dataService";
 import { useState } from "react";
 import { useEffect } from "react";
-import { removeItem } from "../../services/dataService";
 // import { FaRegTrashAlt } from "react-icons/bs";
 
-export default function TodoItem({ id, itemName, status }) {
+export default function TodoItem({ id, itemName, status, setAlert }) {
   const [isDone, setIsDone] = useState(status);
+  const [leaving, setleaving] = useState(false);
 
   useEffect(() => {
     updateStatus(id, { status: isDone });
   }, [isDone]);
 
+  const getInfo = () => {
+    getItem(id).then((item) => {
+      setAlert({ show: true, type: "info", content: item });
+    });
+  };
+
   return (
-    <li id={id}>
+    <li id={id} className={leaving ? "leave" : ""}>
       <input
         type="checkbox"
         className="todo-item-checkbox"
@@ -22,12 +28,19 @@ export default function TodoItem({ id, itemName, status }) {
           setIsDone((prev) => !prev);
         }}
       />
-      <span className="todo-item">{itemName}</span>
+      <span
+        className="todo-item"
+        onClick={() => {
+          getInfo();
+        }}
+      >
+        {itemName}
+      </span>
       <span className="btn-container">
         <button
           className="remove-btn"
           onClick={() => {
-            removeItem(id);
+            removeItem(id).then(setleaving(true));
           }}
         >
           X{/* <FaRegTrashAlt /> */}
@@ -36,23 +49,3 @@ export default function TodoItem({ id, itemName, status }) {
     </li>
   );
 }
-
-///////////////////////////////////////////////////////
-
-//   listItemCheckbox.addEventListener("change", async () => {
-//     const relevantItem = await this.getItemHandler(item.id);
-//     const updateFields = {
-//       status: !relevantItem.status,
-//     };
-//     await this.updateStatusHandler(item.id, updateFields);
-//     await this.updateTasksNum();
-//   });
-
-//   listItemText.addEventListener("click", async () => {
-//     this.alert(await this.createDetails(item.id), "info");
-//   });
-
-//   listItemRemoveBtn.innerHTML = `<i class="fas fa-trash"></i>`;
-//   listItemRemoveBtn.addEventListener("click", () => {
-//     this.deleteItem(listItem);
-//   });
