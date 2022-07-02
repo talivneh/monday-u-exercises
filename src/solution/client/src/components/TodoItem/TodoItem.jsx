@@ -1,15 +1,25 @@
 import "./TodoItem.css";
+import { updateStatus, deleteItem } from "../../services/dataService";
+import { useState } from "react";
+import { useEffect } from "react";
+import { removeItem } from "../../services/dataService";
 // import { FaRegTrashAlt } from "react-icons/bs";
 
 export default function TodoItem({ id, itemName, status }) {
+  const [isDone, setIsDone] = useState(status);
+
+  useEffect(() => {
+    updateStatus(id, { status: isDone });
+  }, [isDone]);
+
   return (
     <li id={id}>
       <input
         type="checkbox"
         className="todo-item-checkbox"
-        checked={status}
+        checked={isDone}
         onChange={() => {
-          console.log("todo: change status state");
+          setIsDone((prev) => !prev);
         }}
       />
       <span className="todo-item">{itemName}</span>
@@ -17,7 +27,7 @@ export default function TodoItem({ id, itemName, status }) {
         <button
           className="remove-btn"
           onClick={() => {
-            console.log("delete");
+            removeItem(id);
           }}
         >
           X{/* <FaRegTrashAlt /> */}

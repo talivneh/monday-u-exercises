@@ -9,7 +9,8 @@ import { getAllItems } from "./services/dataService";
 
 function App() {
   const [itemsList, setItemsList] = useState([]);
-  const [showLoader, setShowLoader] = useState(false);
+  const [showLoader, setShowLoader] = useState(true);
+  const [alert, setAlert] = useState({ show: false, type: "", content: "" });
 
   useEffect(() => {
     setShowLoader(true);
@@ -17,14 +18,14 @@ function App() {
       setItemsList(fetchedItems);
     });
     setShowLoader(false);
-  }, []);
+  });
 
   return (
     <div className="app-wrapper">
-      <Header />
-      <TodoList list={[]} />
-      <Footer isListEmpty={itemsList.length == 0} />
-      <Alert type={"info"} content={"dsfmakfndnf fdsjifd  fdjsaih"} />
+      <Header setAlert={setAlert} setShowLoader={setShowLoader} />
+      <TodoList list={itemsList} />
+      <Footer itemsList={itemsList} />
+      <Alert alert={alert} setAlert={setAlert} />
       <Loader visible={showLoader} />
     </div>
   );

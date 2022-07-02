@@ -11,7 +11,7 @@ export default function TodoList({ list }) {
               key={item.id}
               id={item.id}
               itemName={item.itemName}
-              status={item.done}
+              status={item.status}
             />
           ))}
         </ul>
