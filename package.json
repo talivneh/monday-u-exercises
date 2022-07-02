@@ -3,6 +3,11 @@
     "animate.css": "^4.1.1",
     "chalk": "^5.0.1",
     "commander": "^9.3.0",
-    "node-fetch": "^3.2.4"
+    "mysql2": "^2.3.3",
+    "node-fetch": "^3.2.4",
+    "sequelize": "^6.21.1"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.4.1"
   }
 }
