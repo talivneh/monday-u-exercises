@@ -7,7 +7,7 @@ const bodyParser = require("body-parser");
 
 app.use(bodyParser.json());
 app.use(todoRouter);
-app.use(express.static("../dist"));
+// app.use(express.static("../dist"));
 
 app.listen(port, () => {
   console.log("Server started on port", port);
