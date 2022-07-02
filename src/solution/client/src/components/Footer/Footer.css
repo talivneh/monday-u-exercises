@@ -1,0 +1,15 @@
+footer{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+footer.hide{
+    display: none;
+}
+
+footer button{
+    visibility: visible;
+    background-color: #abdbe3;
+    padding: 0 2%;
+}

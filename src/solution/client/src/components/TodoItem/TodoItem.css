@@ -1,0 +1,73 @@
+li{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 2%;
+    padding: 1%;
+    background-color: #e28743;
+    border-radius: 8px;
+    cursor: pointer;
+    animation: pulse; 
+    animation-duration: 0.5s;
+}
+
+li.leave{
+    animation: bounceOut;
+    animation-duration: 1s;
+}
+
+li span {
+    flex-basis: 70%;
+    white-space: nowrap; 
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 1% 4%;
+}
+
+li:hover{
+    background-color: #eab676;
+}
+
+li span.btn-container{
+    flex-basis: 20%;
+    display: flex;
+    justify-content: center;
+}
+
+li .remove-btn{
+   visibility: hidden;
+   background-color: #e28743;
+}
+
+li:hover .remove-btn{
+    visibility: visible;
+    width: 100%;
+    box-shadow: none;
+    animation: slideInRight;
+    animation-duration: 0.5s;
+}
+
+li .todo-item-checkbox{
+    -webkit-appearance: none;
+    appearance: none;
+    align-self: center;
+    margin-left: 10px;
+    font: inherit;
+    color: currentColor;
+    width: 15px;
+    height: 15px;
+    border: 0.15px solid currentColor;
+    border-radius: 0.15em;
+    transform: translateY(-0.075em);
+    position: relative;
+    cursor: pointer;
+    background-color: #eeeee4;
+}
+
+li .todo-item-checkbox:checked::after{
+    color: #1ca148;
+    content: "\2713";
+    position: absolute;
+    top: -11px;
+    font-weight: 800;
+}

@@ -1,0 +1,22 @@
+.todo-list{
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0 ;
+}
+
+.empty-list{
+    flex-grow: 1;
+    align-self: center;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+ 
+ .empty-list span {
+     text-align: center;
+     width: 50%;
+     font-size: 1.5rem;
+     color: #bbbbbb;
+     animation: tada 3s infinite linear;
+  }
