@@ -1,0 +1,31 @@
+.header-wrapper{
+    display: flex;
+    flex-direction: column;
+}
+
+.header-wrapper header{
+    text-align: center;
+    font-size: 1.5em;
+}
+
+.header-wrapper .input-field{
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    padding: 2%;
+}
+
+.input-field input{
+    font-size: 1.3em;
+    width: 80%;
+    padding: 0 2%;
+    margin: 0 2%;
+    border-radius: 8px;
+    border: 1px solid #eeeee4;
+}
+
+.input-field button{
+    flex-grow: 1;
+    background-color: #154c79;
+    color: #eeeee4;
+}

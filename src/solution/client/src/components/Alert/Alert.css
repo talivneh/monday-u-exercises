@@ -1,0 +1,68 @@
+.alert{
+    display: none;
+    position: absolute;
+    width: 60%;
+    max-width: 300px;
+    max-height: 300px;
+    background-color: white;
+    border: 1px solid #727272;
+    border-radius: 8px;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+    background-color: #eeeee4;
+}
+
+.alert.show{
+    display: flex;
+}
+
+.alert.warning{
+    color: #ff6565;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.5rem;
+    animation: bounceIn;
+    animation-duration: 0.5s;
+    height: 60%;
+}
+
+.alert.info{
+    color: #05203d;
+    animation: fadeIn;
+    animation-duration: 0.5s;
+    height: 40%;
+}
+
+.alert #alert-close-btn{
+    align-self: flex-end;
+    margin-left: 4%;
+    width: 25px;
+    height: 25px;
+    background-color: #646464;
+    border-radius: 50%;
+    color: #eeeee4;
+}
+
+.alert .alert-innet-text{
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    flex-grow: 1;
+    justify-content: center;
+    margin-bottom: 45px;
+}
+
+.alert .alert-innet-text > span{
+    display: flex;
+    flex-direction: column;
+}
+
+.alert .alert-innet-text .title{
+font-weight: 700;
+color: #063970;
+}
+
+.alert .alert-innet-text  span.done , .alert .alert-innet-text  span.done > span{
+    color: #1ca148;
+}
