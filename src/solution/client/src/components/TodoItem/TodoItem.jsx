@@ -1,48 +1,45 @@
 import "./TodoItem.css";
-import { updateStatus, removeItem, getItem } from "../../services/dataService";
-import { useState } from "react";
-import { useEffect } from "react";
-// import { FaRegTrashAlt } from "react-icons/bs";
+import { useCallback } from "react";
 
-export default function TodoItem({ id, itemName, status, setAlert }) {
-  const [isDone, setIsDone] = useState(status);
-  const [leaving, setleaving] = useState(false);
+export default function TodoItem({
+  id,
+  itemName,
+  status,
+  updateItem,
+  removeOneItem,
+}) {
+  const onDeleteItem = useCallback(async () => {
+    const item = { itemName, id, status };
+    removeOneItem(item);
+  }, []);
 
-  useEffect(() => {
-    updateStatus(id, { status: isDone });
-  }, [isDone]);
-
-  const getInfo = () => {
-    getItem(id).then((item) => {
-      setAlert({ show: true, type: "info", content: item });
-    });
-  };
+  const onUpdateItem = useCallback(async () => {
+    const item = { itemName, id, status };
+    try {
+      updateItem(item);
+    } catch (err) {
+      console.log(err);
+    }
+  }, [status]);
 
   return (
-    <li id={id} className={leaving ? "leave" : ""}>
+    <li>
       <input
         type="checkbox"
         className="todo-item-checkbox"
-        checked={isDone}
-        onChange={() => {
-          setIsDone((prev) => !prev);
-        }}
+        checked={status}
+        onChange={onUpdateItem}
       />
       <span
         className="todo-item"
         onClick={() => {
-          getInfo();
+          console.log("show details");
         }}
       >
         {itemName}
       </span>
       <span className="btn-container">
-        <button
-          className="remove-btn"
-          onClick={() => {
-            removeItem(id).then(setleaving(true));
-          }}
-        >
+        <button className="remove-btn" onClick={onDeleteItem}>
           X{/* <FaRegTrashAlt /> */}
         </button>
       </span>

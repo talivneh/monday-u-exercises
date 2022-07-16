@@ -1,7 +1,7 @@
-const ENDPOINT = `http://localhost:8080`;
+// const ENDPOINT = `http://localhost:8080`;
 
-export async function addItem(itemText) {
-  const todo = { text: itemText };
+export async function addItem(itemName) {
+  const todo = { text: itemName };
   try {
     const item = await fetch(`/items`, {
       method: "POST",
@@ -11,21 +11,22 @@ export async function addItem(itemText) {
     const itemJson = await item.json();
     return itemJson;
   } catch (err) {
-    console.log(err);
+    return { errMessage: err };
   }
 }
 
-export async function getItem(id) {
+export async function getItem({ id }) {
   try {
     const item = await fetch(`/items/${id}`);
     const itemJson = await item.json();
     return itemJson;
   } catch (err) {
-    console.log(err);
+    return { errMessage: err };
   }
 }
 
-export async function updateStatus(id, fields) {
+export async function updateStatus({ id }, fields) {
+  console.log(id);
   try {
     const items = await fetch(`/items/${id}`, {
       method: "PUT",
@@ -35,11 +36,11 @@ export async function updateStatus(id, fields) {
     const updatedItem = await items.json();
     return updatedItem;
   } catch (err) {
-    console.log(err);
+    return { errMessage: err };
   }
 }
 
-export async function removeItem(id) {
+export async function removeItem({ id }) {
   try {
     const item = await fetch(`/items/${id}`, {
       method: "DELETE",
@@ -47,7 +48,7 @@ export async function removeItem(id) {
     const deletedItem = await item.json();
     return deletedItem;
   } catch (err) {
-    console.log(err);
+    return { errMessage: err };
   }
 }
 
@@ -59,7 +60,7 @@ export async function removeAllItems() {
     const itemsJson = await items.json();
     return itemsJson;
   } catch (err) {
-    console.log(err);
+    return { errMessage: err };
   }
 }
 
@@ -69,6 +70,6 @@ export async function getAllItems() {
     const itemsJson = await items.json();
     return itemsJson;
   } catch (err) {
-    console.log(err);
+    return { errMessage: err };
   }
 }

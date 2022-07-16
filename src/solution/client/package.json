@@ -11,7 +11,9 @@
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
     "web-vitals": "^2.1.4",
-    "animate.css": "^4.1.1"
+    "animate.css": "^4.1.1",
+    "@reduxjs/toolkit": "^1.8.1",
+    "react-redux": "^8.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
