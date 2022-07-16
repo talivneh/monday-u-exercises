@@ -6,6 +6,7 @@ const initialState = {
   lastDeletedItem: null,
   isLoading: false,
   isError: false,
+  error: null,
 };
 
 const itemsViewReducer = (state = initialState, action) => {
@@ -28,22 +29,27 @@ const itemsViewReducer = (state = initialState, action) => {
         ...state,
         isError: false,
         isLoading: false,
+        error: null,
       };
     }
 
     case actionTypes.FETCH_ITEMS_SUCCESS:
     case actionTypes.UPDATE_ITEM_SUCCESS:
     case actionTypes.ADD_ITEM_SUCCESS: {
-      return { ...state, isError: false, isLoading: false };
+      return { ...state, isError: false, isLoading: false, error: null };
     }
 
     case actionTypes.FETCH_ITEMS_FAILURE:
     case actionTypes.REMOVE_ITEM_FAILURE:
     case actionTypes.UPDATE_ITEM_FAILURE:
+      return {
+        ...state,
+        isError: true,
+        isLoading: false,
+        error: "Somthing went wrong, please try again later",
+      };
     case actionTypes.ADD_ITEM_FAILURE: {
-      // TODO: create different error flags to show
-      // a different error state for each case
-      return { ...state, isError: true, isLoading: false };
+      return { ...state, isError: true, isLoading: false, error: action.err };
     }
 
     default:

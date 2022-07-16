@@ -11,10 +11,11 @@ async function createTodo(req, res) {
   }
   const isExists = await todoService.getTodoByText(newTodo);
   if (isExists)
-    return res.status(400).json({
-      status: 400,
+    return res.status(300).json({
+      status: 300,
       error: "This todo item is allready exists",
     });
+
   const newAddedTodo = await todoService.addTodo(newTodo);
   res.status(200).json(newAddedTodo);
 }
@@ -23,15 +24,14 @@ async function getTodo(req, res) {
   let todoId = Number.parseInt(req.params.id);
   //fix error handling
   if (isNaN(todoId))
-    return res.status(400).json({
-      status: 400,
+    return res.status(300).json({
+      status: 300,
       error: "wrong parameters",
     });
 
   const todo = await todoService.getTodoById(todoId);
 
   if (!todo) {
-    //fix error handling
     return res.status(404).json({
       status: 404,
       error: "Not found",
@@ -45,15 +45,15 @@ async function updateTodo(req, res) {
   let todoId = Number.parseInt(req.params.id);
   //fix error handling
   if (isNaN(todoId))
-    return res.status(400).json({
-      status: 400,
+    return res.status(300).json({
+      status: 300,
       error: "wrong parameters",
     });
   let fieldToUpdate = req.body;
   //fix error handling
   if (!fieldToUpdate)
-    return res.status(400).json({
-      status: 400,
+    return res.status(300).json({
+      status: 300,
       error: "wrong parameters",
     });
 
@@ -80,8 +80,8 @@ async function deleteTodo(req, res) {
   let todoId = Number.parseInt(req.params.id);
   //fix error handling
   if (isNaN(todoId))
-    return res.status(400).json({
-      status: 400,
+    return res.status(300).json({
+      status: 300,
       error: "wrong parameters",
     });
 

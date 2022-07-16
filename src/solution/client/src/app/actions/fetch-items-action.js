@@ -20,13 +20,9 @@ export const fetchItems = () => {
     dispatch(fetchItemsRequestAction());
     try {
       const items = await getAllItems();
-      // const itemsByIds = items.reduce((acc, item) => {
-      //   acc[item.id] = item;
-      //   return acc;
-      // }, {});
       dispatch(fetchItemsSuccessAction(items));
     } catch (e) {
-      dispatch(fetchItemsFailureAction(e.errMessage));
+      dispatch(fetchItemsFailureAction());
     }
   };
 };

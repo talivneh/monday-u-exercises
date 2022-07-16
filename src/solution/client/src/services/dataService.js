@@ -1,4 +1,4 @@
-// const ENDPOINT = `http://localhost:8080`;
+//const ENDPOINT = `http://localhost:8080`;
 
 export async function addItem(itemName) {
   const todo = { text: itemName };
@@ -11,7 +11,7 @@ export async function addItem(itemName) {
     const itemJson = await item.json();
     return itemJson;
   } catch (err) {
-    return { errMessage: err };
+    console.log(err);
   }
 }
 
@@ -21,12 +21,11 @@ export async function getItem({ id }) {
     const itemJson = await item.json();
     return itemJson;
   } catch (err) {
-    return { errMessage: err };
+    console.log(err);
   }
 }
 
 export async function updateStatus({ id }, fields) {
-  console.log(id);
   try {
     const items = await fetch(`/items/${id}`, {
       method: "PUT",
@@ -36,7 +35,7 @@ export async function updateStatus({ id }, fields) {
     const updatedItem = await items.json();
     return updatedItem;
   } catch (err) {
-    return { errMessage: err };
+    console.log(err);
   }
 }
 
@@ -48,7 +47,7 @@ export async function removeItem({ id }) {
     const deletedItem = await item.json();
     return deletedItem;
   } catch (err) {
-    return { errMessage: err };
+    console.log(err);
   }
 }
 
@@ -60,7 +59,7 @@ export async function removeAllItems() {
     const itemsJson = await items.json();
     return itemsJson;
   } catch (err) {
-    return { errMessage: err };
+    console.log(err);
   }
 }
 
@@ -70,6 +69,6 @@ export async function getAllItems() {
     const itemsJson = await items.json();
     return itemsJson;
   } catch (err) {
-    return { errMessage: err };
+    console.log(err);
   }
 }

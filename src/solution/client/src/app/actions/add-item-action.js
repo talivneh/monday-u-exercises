@@ -20,10 +20,11 @@ export const addNewItem = (text) => {
     dispatch(addItemRequestAction());
     try {
       const item = await addItem(text);
+      if (item.error) return dispatch(addItemFailureAction(item.error));
       const { id, itemName } = item;
       dispatch(addItemSuccessAction({ id, itemName }));
     } catch (e) {
-      dispatch(addItemFailureAction(e.errMessage));
+      dispatch(addItemFailureAction());
     }
   };
 };

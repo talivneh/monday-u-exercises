@@ -16,6 +16,8 @@ const ACTIONS = {
   UPDATE_ITEM_FAILURE: "update_item_failure",
 
   FILTER_BY_STATUS: "filter_by_status",
+
+  INFO: "info",
 };
 
 export default ACTIONS;
