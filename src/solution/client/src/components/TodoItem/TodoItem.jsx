@@ -16,7 +16,7 @@ export default function TodoItem({
   const onUpdateItem = useCallback(async () => {
     const item = { itemName, id, status };
     try {
-      updateItem(item);
+      await updateItem(item);
     } catch (err) {
       console.log(err);
     }

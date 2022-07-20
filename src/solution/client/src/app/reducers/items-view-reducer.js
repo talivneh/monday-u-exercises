@@ -13,7 +13,10 @@ const itemsViewReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FILTER_BY_STATUS: {
       const { statusFilter } = action;
-      return { ...state, statusFilter };
+      const newFilter = FILTER_OPTIONS.find(
+        (opt) => (opt.value = statusFilter)
+      );
+      return { ...state, statusFilter: newFilter.value };
     }
 
     case actionTypes.FETCH_ITEMS_REQUEST:
@@ -24,7 +27,6 @@ const itemsViewReducer = (state = initialState, action) => {
     }
 
     case actionTypes.REMOVE_ITEM_SUCCESS: {
-      const { item } = action;
       return {
         ...state,
         isError: false,

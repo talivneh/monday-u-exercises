@@ -3,9 +3,12 @@ import "./TodosFilter.css";
 import { useCallback } from "react";
 
 export default function TodosFilter({ filterByStatus }) {
-  const onSelectFilter = useCallback((value) => {
-    filterByStatus(value);
-  }, []);
+  const onSelectFilter = useCallback(
+    (e) => {
+      filterByStatus(e.target.value);
+    },
+    [filterByStatus]
+  );
 
   return (
     <div className="filter-group">
@@ -17,7 +20,6 @@ export default function TodosFilter({ filterByStatus }) {
               type="radio"
               onChange={onSelectFilter}
               value={value}
-              // checked={value === FILTER_OPTIONS[0].value}
             />
             {text}
           </label>

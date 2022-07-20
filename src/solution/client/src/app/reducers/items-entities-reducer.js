@@ -6,7 +6,10 @@ const itemsEntitiesReducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.FETCH_ITEMS_SUCCESS: {
       const { items } = action;
-      return { ...items };
+      return items.reduce((allItems, currentItem) => {
+        allItems[currentItem.id] = currentItem;
+        return allItems;
+      }, {});
     }
 
     case actionTypes.ADD_ITEM_SUCCESS: {
@@ -22,9 +25,9 @@ const itemsEntitiesReducer = (state = initialState, action) => {
     }
 
     case actionTypes.UPDATE_ITEM_SUCCESS: {
-      const { itemId } = action;
+      const { item } = action;
       const items = { ...state };
-      items[itemId].status = !items[itemId].status;
+      items[item.id].status = item.status;
       return items;
     }
 

@@ -21,7 +21,7 @@ async function addTodo(text) {
 
 async function updateTodo(id, fields) {
   const item = await Item.update({ ...fields }, { where: { id } });
-  return item;
+  return await getTodoById(id);
 }
 
 async function getTodoById(id) {

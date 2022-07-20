@@ -19,7 +19,7 @@ export const addNewItem = (text) => {
   return async (dispatch) => {
     dispatch(addItemRequestAction());
     try {
-      const item = await addItem(text);
+      const item = await addItem(text.trim());
       if (item.error) return dispatch(addItemFailureAction(item.error));
       const { id, itemName } = item;
       dispatch(addItemSuccessAction({ id, itemName }));

@@ -1,7 +1,8 @@
 import { FILTER_OPTIONS } from "../app/constants/filter-options";
 
 export function filterByStatus(statusFilter, items) {
-  switch (statusFilter) {
+  debugger;
+  switch (parseInt(statusFilter)) {
     case FILTER_OPTIONS[0].value: {
       return items;
     }

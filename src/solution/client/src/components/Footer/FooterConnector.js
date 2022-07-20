@@ -1,12 +1,16 @@
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import { removeOneItem } from "../../app/actions/remove-item-action";
-import { getFilteredItems } from "../../app/selectors/items-entities-selectors";
+import {
+  getAllItems,
+  getUndoneItems,
+} from "../../app/selectors/items-entities-selectors";
 import Footer from "./Footer";
 
 const mapStateToProps = (state) => {
-  const items = getFilteredItems(state);
-  return { items };
+  const items = getAllItems(state);
+  const unDoneitems = getUndoneItems(state);
+  return { items, count: unDoneitems.length };
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => {

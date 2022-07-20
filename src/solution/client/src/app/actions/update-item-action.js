@@ -5,9 +5,9 @@ const updateItemRequestAction = () => ({
   type: actionTypes.UPDATE_ITEM_REQUEST,
 });
 
-const updateItemSuccessAction = (itemId) => ({
+const updateItemSuccessAction = (item) => ({
   type: actionTypes.UPDATE_ITEM_SUCCESS,
-  itemId,
+  item,
 });
 
 const updateItemFailureAction = (err) => ({
@@ -19,7 +19,8 @@ export const updateItem = (item) => {
   return async (dispatch) => {
     dispatch(updateItemRequestAction());
     try {
-      const updatedItem = await updateStatus(item, { status: !item.status });
+      const newStatus = !item.status ? 1 : 0;
+      const updatedItem = await updateStatus(item, { status: newStatus });
       dispatch(updateItemSuccessAction(updatedItem));
     } catch (e) {
       dispatch(updateItemFailureAction(e.errMessage));
