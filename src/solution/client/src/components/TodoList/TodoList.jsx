@@ -9,8 +9,14 @@ export default function TodoList({ items, filterdItems, fetchItems }) {
   }, [fetchItems]);
 
   const itemsList = useMemo(() => {
-    return filterdItems.map(({ id, itemName, status }) => (
-      <TodoItemConnector key={id} id={id} itemName={itemName} status={status} />
+    return filterdItems.map(({ id, itemName, status, creationTime }) => (
+      <TodoItemConnector
+        key={id}
+        id={id}
+        itemName={itemName}
+        status={status}
+        creationTime={creationTime}
+      />
     ));
   }, [filterdItems]);
 

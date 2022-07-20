@@ -8,6 +8,7 @@ async function getAll() {
     id: item.id,
     itemName: item.itemName,
     status: item.status,
+    creationTime: item.createdAt,
   }));
 }
 
