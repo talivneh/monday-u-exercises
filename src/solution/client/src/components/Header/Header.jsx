@@ -1,32 +1,31 @@
 import "./Header.css";
 import validateInput from "../../services/inputValidation";
-import { addItem } from "../../services/dataService";
 import { useState } from "react";
 
-export default function Header({ setAlert, setShowLoader }) {
+export default function Header({ addNewItem }) {
   const [input, setInput] = useState("");
 
   const handleInput = (text) => {
-    setShowLoader(true);
+    // setShowLoader(true);
     const textList = text.split(",");
     if (textList && textList.length > 1) {
       textList.forEach((textItem) => {
         validateInput(textItem)
-          ? addItem(textItem)
+          ? addNewItem(textItem)
           : handleInvalidInput(textItem);
       });
     } else {
-      validateInput(text) ? addItem(text) : handleInvalidInput(text);
+      validateInput(text) ? addNewItem(text) : handleInvalidInput(text);
     }
-    setShowLoader(false);
+    // setShowLoader(false);
   };
 
   const handleInvalidInput = (input) => {
-    setAlert({
-      show: true,
-      type: "warning",
-      content: `${input} is invalid input. please use letters and numbers only`,
-    });
+    // setAlert({
+    //   show: true,
+    //   type: "warning",
+    //   content: `${input} is invalid input. please use letters and numbers only`,
+    // });
   };
 
   return (

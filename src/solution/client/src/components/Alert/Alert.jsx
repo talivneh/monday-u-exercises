@@ -1,42 +1,20 @@
 import "./Alert.css";
+import { useState } from "react";
+import { useEffect } from "react";
 
-export default function Alert({ alert, setAlert }) {
-  const createItemInfo = ({ itemName, status, createdAt, updatedAt }) => {
-    return (
-      <span>
-        <span>
-          <span className="title">To do:</span> {itemName}
-        </span>
-        <span>
-          <span className="title">Creation-date:</span> {createdAt}
-        </span>
-        {status ? (
-          <span className="title done">
-            <span>Done at:</span>
-            {updatedAt}
-          </span>
-        ) : (
-          ``
-        )}
-      </span>
-    );
-  };
+export default function Alert({ isError, errMessage }) {
+  const [showAlert, setShowAlert] = useState(isError);
+
+  useEffect(() => {
+    setShowAlert(isError);
+  }, [isError]);
 
   return (
-    <div className={`alert ${alert.type} ${alert.show ? "show" : ""}`}>
-      <button
-        id="alert-close-btn"
-        onClick={() => setAlert({ ...alert, show: false })}
-      >
+    <div className={`alert ${showAlert ? "show" : ""}`}>
+      <button id="alert-close-btn" onClick={() => setShowAlert(false)}>
         X
       </button>
-      <span className="alert-innet-text">
-        {alert.type === "warning" ? (
-          <span> {alert.content}</span>
-        ) : (
-          createItemInfo(alert.content)
-        )}
-      </span>
+      <span className="alert-innet-text">{errMessage}</span>
     </div>
   );
 }

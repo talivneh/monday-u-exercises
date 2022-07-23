@@ -1,24 +1,15 @@
 import "./Footer.css";
-import { removeAllItems } from "../../services/dataService";
-import { useEffect, useState } from "react";
 
-export default function Footer({ itemsList }) {
-  const [pendingNum, setPendingNum] = useState(0);
-
-  useEffect(() => {
-    const newPendingNum = itemsList.filter((todo) => todo.status == 0).length;
-    setPendingNum(newPendingNum);
-  }, [itemsList]);
-
+export default function Footer({ removeOneItem, items, count }) {
   return (
-    <footer className={`${!itemsList.length && "hide"}`}>
+    <footer className={`${!items.length && "hide"}`}>
       <span>
-        You have <span id="tasks-number">{pendingNum}</span> pending tasks
+        You have <span id="tasks-number">{count}</span> pending tasks
       </span>
       <button
         id="clear-all"
         onClick={() => {
-          removeAllItems();
+          items.forEach((item) => removeOneItem(item));
         }}
       >
         Clear All X{/* <i class="fas fa-trash"></i> */}

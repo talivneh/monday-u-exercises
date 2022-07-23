@@ -8,6 +8,7 @@ async function getAll() {
     id: item.id,
     itemName: item.itemName,
     status: item.status,
+    creationTime: item.createdAt,
   }));
 }
 
@@ -21,7 +22,7 @@ async function addTodo(text) {
 
 async function updateTodo(id, fields) {
   const item = await Item.update({ ...fields }, { where: { id } });
-  return item;
+  return await getTodoById(id);
 }
 
 async function getTodoById(id) {

@@ -1,21 +1,32 @@
 import "./TodoList.css";
-import TodoItem from "../TodoItem/TodoItem";
+import TodoItemConnector from "../TodoItem/TodoItemConnector";
+import { useMemo, useEffect } from "react";
+import TodosFilterConnector from "../TodosFilter/TodosFilterConnector";
 
-export default function TodoList({ list, setAlert }) {
+export default function TodoList({ items, filterdItems, fetchItems }) {
+  useEffect(() => {
+    fetchItems();
+  }, [fetchItems]);
+
+  const itemsList = useMemo(() => {
+    return filterdItems.map(({ id, itemName, status, creationTime }) => (
+      <TodoItemConnector
+        key={id}
+        id={id}
+        itemName={itemName}
+        status={status}
+        creationTime={creationTime}
+      />
+    ));
+  }, [filterdItems]);
+
   return (
     <div className="todo-list">
-      {list.length ? (
-        <ul>
-          {list.map((item) => (
-            <TodoItem
-              key={item.id}
-              id={item.id}
-              itemName={item.itemName}
-              status={item.status}
-              setAlert={setAlert}
-            />
-          ))}
-        </ul>
+      {items.length ? (
+        <>
+          <TodosFilterConnector />
+          <ul>{itemsList}</ul>
+        </>
       ) : (
         <div className="empty-list">
           <span>Hi! You Have Nothing ToDo!</span>

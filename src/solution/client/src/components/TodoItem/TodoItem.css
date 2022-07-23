@@ -1,6 +1,6 @@
 li{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
     margin: 2%;
     padding: 1%;
@@ -14,6 +14,28 @@ li{
 li.leave{
     animation: bounceOut;
     animation-duration: 1s;
+}
+
+li div {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.info{
+    display: none;
+    padding: 10px;
+}
+
+.info.show{
+    display: flex;
+    animation: fadeInDown; 
+    animation-duration: 0.5s;
+}
+
+.info > div{
+    display: flex;
+    flex-direction: column;
 }
 
 li span {

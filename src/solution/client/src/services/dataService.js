@@ -1,7 +1,7 @@
-const ENDPOINT = `http://localhost:8080`;
+//const ENDPOINT = `http://localhost:8080`;
 
-export async function addItem(itemText) {
-  const todo = { text: itemText };
+export async function addItem(itemName) {
+  const todo = { text: itemName };
   try {
     const item = await fetch(`/items`, {
       method: "POST",
@@ -15,7 +15,7 @@ export async function addItem(itemText) {
   }
 }
 
-export async function getItem(id) {
+export async function getItem({ id }) {
   try {
     const item = await fetch(`/items/${id}`);
     const itemJson = await item.json();
@@ -25,7 +25,7 @@ export async function getItem(id) {
   }
 }
 
-export async function updateStatus(id, fields) {
+export async function updateStatus({ id }, fields) {
   try {
     const items = await fetch(`/items/${id}`, {
       method: "PUT",
@@ -39,7 +39,7 @@ export async function updateStatus(id, fields) {
   }
 }
 
-export async function removeItem(id) {
+export async function removeItem({ id }) {
   try {
     const item = await fetch(`/items/${id}`, {
       method: "DELETE",
