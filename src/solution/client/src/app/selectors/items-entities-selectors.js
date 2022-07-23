@@ -11,10 +11,9 @@ export const getAllItems = createSelector(getItemsEntities, (items) => {
 
 export const getFilteredItems = createSelector(
   getStatusFilter,
-  getItemsEntities,
+  getAllItems,
   (statusFilter, items) => {
-    const itemsArr = Object.values(items);
-    let filteredItems = itemsArr;
+    let filteredItems = items;
 
     if (statusFilter) {
       filteredItems = filterByStatus(statusFilter, filteredItems);
@@ -24,9 +23,8 @@ export const getFilteredItems = createSelector(
   }
 );
 
-export const getUndoneItems = createSelector(getItemsEntities, (items) => {
-  const itemsArr = Object.values(items);
-  let filteredItems = itemsArr;
+export const getUndoneItems = createSelector(getAllItems, (items) => {
+  let filteredItems = items;
   filteredItems = filterByStatus(FILTER_OPTIONS[2].value, filteredItems);
   return filteredItems;
 });
